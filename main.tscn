@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://xxvh43pwrsxo"]
+[gd_scene load_steps=7 format=3 uid="uid://xxvh43pwrsxo"]
 
 [ext_resource type="Script" path="res://Level.gd" id="1_17kps"]
 [ext_resource type="Texture2D" uid="uid://b2ehdauqbptci" path="res://Tileset.png" id="1_oqtrh"]
+[ext_resource type="Script" path="res://cam_container.gd" id="3_ljylx"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_phqxi"]
 vertices = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
@@ -161,3 +162,8 @@ script = ExtResource("1_17kps")
 rotation = 0.00141728
 tile_set = SubResource("TileSet_w2bvw")
 format = 2
+
+[node name="cam_container" type="Node2D" parent="."]
+script = ExtResource("3_ljylx")
+
+[node name="Camera2D" type="Camera2D" parent="cam_container"]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://xxvh43pwrsxo"]
+[gd_scene load_steps=11 format=3 uid="uid://xxvh43pwrsxo"]
 
-[ext_resource type="Script" path="res://Level.gd" id="1_17kps"]
-[ext_resource type="Texture2D" uid="uid://b2ehdauqbptci" path="res://Tileset.png" id="1_oqtrh"]
-[ext_resource type="Script" path="res://cam_container.gd" id="3_ljylx"]
+[ext_resource type="Script" path="res://scripts/Level.gd" id="1_k6mty"]
+[ext_resource type="Texture2D" uid="uid://b2ehdauqbptci" path="res://assets/jalan/tileset_jalan.png" id="2_e6o7i"]
+[ext_resource type="Texture2D" uid="uid://boom5kgqcxns2" path="res://assets/asrama/asrama.png" id="3_c7tp5"]
+[ext_resource type="Script" path="res://scripts/cam_container.gd" id="3_vqskw"]
+[ext_resource type="Texture2D" uid="uid://dosq5o4hy4gia" path="res://assets/kampus/kampus.png" id="4_cs1d2"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_phqxi"]
 vertices = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
@@ -11,7 +13,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-40, -40, 40, -40, 40, 
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8hisn"]
 resource_name = "road"
-texture = ExtResource("1_oqtrh")
+texture = ExtResource("2_e6o7i")
 texture_region_size = Vector2i(80, 80)
 0:0/0 = 0
 0:0/0/terrain_set = 0
@@ -143,20 +145,98 @@ texture_region_size = Vector2i(80, 80)
 0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
 0:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_phqxi")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0i6sa"]
+texture = ExtResource("3_c7tp5")
+texture_region_size = Vector2i(80, 80)
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 1
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrain = 1
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 1
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrain = 2
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tgdb0"]
+texture = ExtResource("4_cs1d2")
+texture_region_size = Vector2i(80, 80)
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 3
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, -40, 40, 40, 40, 40, -40)
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 3
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, -40, 40, 40, 40, 40, -40)
+2:0/0 = 0
+2:0/0/terrain_set = 0
+2:0/0/terrain = 3
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, -40, 40, 40, 40, 40, -40)
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrain = 3
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, -40, 40, 40, 40, 40, -40)
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrain = 4
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, -40, 40, 40, 40, 40, -40)
+2:1/0 = 0
+2:1/0/terrain_set = 0
+2:1/0/terrain = 3
+2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:1/0/physics_layer_0/angular_velocity = 0.0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-40, -40, -40, 40, 40, 40, 40, -40)
+
 [sub_resource type="TileSet" id="TileSet_w2bvw"]
 tile_size = Vector2i(80, 80)
 uv_clipping = true
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 2
-terrain_set_0/terrain_0/name = "Terrain 0"
+terrain_set_0/terrain_0/name = "jalan"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.345098, 0.25098, 1)
+terrain_set_0/terrain_1/name = "asrama 1"
+terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
+terrain_set_0/terrain_2/name = "asrama_gerbang2"
+terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
+terrain_set_0/terrain_3/name = "kampus 3"
+terrain_set_0/terrain_3/color = Color(0.375, 0.5, 0.25, 1)
+terrain_set_0/terrain_4/name = "kampus_gerbang 4"
+terrain_set_0/terrain_4/color = Color(0.28125, 0.5, 0.25, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_8hisn")
+sources/1 = SubResource("TileSetAtlasSource_0i6sa")
+sources/2 = SubResource("TileSetAtlasSource_tgdb0")
 
 [node name="main" type="Node2D"]
 
 [node name="Level" type="Node2D" parent="."]
-script = ExtResource("1_17kps")
+script = ExtResource("1_k6mty")
 
 [node name="TileMap" type="TileMap" parent="Level"]
 rotation = 0.00141728
@@ -164,6 +244,6 @@ tile_set = SubResource("TileSet_w2bvw")
 format = 2
 
 [node name="cam_container" type="Node2D" parent="."]
-script = ExtResource("3_ljylx")
+script = ExtResource("3_vqskw")
 
 [node name="Camera2D" type="Camera2D" parent="cam_container"]

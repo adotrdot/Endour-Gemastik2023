@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2ehdauqbptci"
-path="res://.godot/imported/Tileset.png-8b57c3b721721080420dc0358d85e828.ctex"
+path="res://.godot/imported/tileset_jalan.png-847d03b23319c8b26524e95f47169a8d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tileset.png"
-dest_files=["res://.godot/imported/Tileset.png-8b57c3b721721080420dc0358d85e828.ctex"]
+source_file="res://assets/jalan/tileset_jalan.png"
+dest_files=["res://.godot/imported/tileset_jalan.png-847d03b23319c8b26524e95f47169a8d.ctex"]
 
 [params]
 

@@ -42,6 +42,13 @@ mb_mid={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="batas_jalan"
+2d_navigation/layer_1="jalan_berangkat"
+2d_physics/layer_2="siswa"
+2d_navigation/layer_2="jalan_pulang"
+
 [rendering]
 
 renderer/rendering_method="mobile"

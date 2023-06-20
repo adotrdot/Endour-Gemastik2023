@@ -6,7 +6,6 @@ const TILE_SIZE = Vector2i(80,80)
 var astar = AStarGrid2D.new()
 var start_point = Vector2i(4,3)
 var end_point = Vector2i(19,6)
-var path = PackedVector2Array()
 
 @onready var siswa = get_node("../Siswa")
 
@@ -27,9 +26,10 @@ func _ready():
 			var pos = Vector2i(i,j)
 			if get_cell_source_id(0, pos) == -1:
 				astar.set_point_solid(pos)
-	
-	path = astar.get_point_path(start_point, end_point).duplicate()
 
+
+func find_path(start_point, end_point):
+	return astar.get_point_path(start_point, end_point).duplicate()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

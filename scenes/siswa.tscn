@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://btb8f2vdwdyxg"]
+
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_8y32o"]
+[ext_resource type="Texture2D" uid="uid://cnagufek4mwjy" path="res://assets/siswa/siswa.png" id="2_ixsd6"]
+
+[node name="Siswa" type="Marker2D"]
+z_index = 2
+position = Vector2(359, 283)
+script = ExtResource("1_8y32o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -20)
+rotation = -1.5708
+texture = ExtResource("2_ixsd6")

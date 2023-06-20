@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://xxvh43pwrsxo"]
+[gd_scene load_steps=5 format=3 uid="uid://xxvh43pwrsxo"]
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1_k6mty"]
 [ext_resource type="PackedScene" uid="uid://tdib8wqxja64" path="res://scenes/tilemap.tscn" id="2_marce"]
+[ext_resource type="Script" path="res://scripts/tilemap.gd" id="3_uwblg"]
 [ext_resource type="Script" path="res://scripts/cam_container.gd" id="3_vqskw"]
 
 [node name="main" type="Node2D"]
@@ -10,6 +11,7 @@
 script = ExtResource("1_k6mty")
 
 [node name="TileMap" parent="Level" instance=ExtResource("2_marce")]
+script = ExtResource("3_uwblg")
 
 [node name="cam_container" type="Node2D" parent="."]
 script = ExtResource("3_vqskw")

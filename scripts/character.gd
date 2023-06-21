@@ -12,7 +12,6 @@ var velocity = Vector2()
 
 @onready var tilemap = get_node("../TileMap")
 
-var index = 0
 var path = PackedVector2Array()
 var next_point = Vector2()
 var asal_asrama = Vector2i()
@@ -61,7 +60,12 @@ func move_to(local_position):
 func berangkat(start_point, end_point):
 	asal_asrama = start_point
 	posisi_kampus = end_point
-	set_path(start_point, end_point)
+	
+	# batalkan apabila path tidak ditemukan
+	if not set_path(start_point, end_point):
+		queue_free()
+		return
+	
 	state = State.BERANGKAT
 	anim.play("berangkat")
 
@@ -74,7 +78,10 @@ func pulang(start_point, end_point):
 
 func set_path(start_point, end_point):
 	path = tilemap.find_path(start_point, end_point)
+	if path.is_empty():
+		return false
 	next_point = path[1]
+	return true
 
 func send_signal_kampus():
 	sampai_kampus.emit()
@@ -82,7 +89,7 @@ func send_signal_kampus():
 	
 	
 func send_signal_asrama():
-	sampai_asrama.emit()
+	queue_free()
 
 
 func _on_timer_timeout():

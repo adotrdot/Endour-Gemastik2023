@@ -27,28 +27,64 @@ func remove_road(local_mousepos):
 			set_cells_terrain_connect(0, [tile], 0, 0)
 
 
-func place_asrama(pos):
-	asrama_coords.clear()
-	var tilepos = local_to_map(pos)
-	for i in range(2):
-		for j in range(2):
-			asrama_coords.append(tilepos + Vector2i(i,j))
+# method untuk menempatkan asrama pada map
+func place_asrama():
 	for i in range(asrama_coords.size()):
 		set_cell(1,asrama_coords[i],1,asrama_atlas_coords[i])
 	set_cells_terrain_connect(0, [asrama_coords[-1]], 0, 0)
 	return asrama_coords[-1] # return koordinat gerbang
 
 
-func place_kampus(pos):
-	kampus_coords.clear()
-	var tilepos = local_to_map(pos)
-	for i in range(3):
+# method untuk memeriksa apakah ada jalan/bangunan yang akan
+# menghalangi penempatan asrama
+func is_asrama_buildable(pos):
+	asrama_coords.clear()
+	var start_tilepos = local_to_map(pos)
+	for i in range(2):
 		for j in range(2):
-			kampus_coords.append(tilepos + Vector2i(i,j))
+			var tilepos = start_tilepos + Vector2i(i,j)
+			
+			# cek apakah sudah ada tile jalan/bangunan di posisi
+			if get_cell_source_id(0,tilepos) == 0 or get_cell_source_id(1,tilepos) in [1,2]:
+				return false
+			
+			# cek apakah ada tile bangunan yang tepat bersebelahan
+			for neighbor in get_surrounding_cells(tilepos):
+				if get_cell_source_id(1,neighbor) in [1,2]:
+					return false
+			
+			asrama_coords.append(tilepos)
+	return true
+
+
+# method untuk menempatkan kampus pada map
+func place_kampus():
 	for i in range(kampus_coords.size()):
 		set_cell(1,kampus_coords[i],2,kampus_atlas_coords[i])
 	set_cells_terrain_connect(0, [kampus_coords[3]], 0, 0)
 	return kampus_coords[3] # return koordinat gerbang
+
+
+# method untuk memeriksa apakah ada jalan yang akan
+# menghalangi penempatan kampus
+func is_kampus_buildable(pos):
+	kampus_coords.clear()
+	var start_tilepos = local_to_map(pos)
+	for i in range(3):
+		for j in range(2):
+			var tilepos = start_tilepos + Vector2i(i,j)
+			
+			# cek apakah sudah ada tile jalan/bangunan di posisi
+			if get_cell_source_id(0,tilepos) == 0 or get_cell_source_id(1,tilepos) in [1,2]:
+				return false
+			
+			# cek apakah ada tile bangunan yang tepat bersebelahan
+			for neighbor in get_surrounding_cells(tilepos):
+				if get_cell_source_id(1,neighbor) in [1,2]:
+					return false
+			
+			kampus_coords.append(tilepos)
+	return true
 
 
 func find_path(start_point, end_point):

@@ -21,4 +21,9 @@ func _unhandled_input(event):
 				camera.zoom -= Vector2(0.1,0.1)
 	if(event is InputEventMouseMotion):
 		if(is_panning):
-			self.global_position -= event.relative
+			global_position -= event.relative
+		# handle panning melebihi batas
+		if global_position.x < 200:
+			global_position.x = 200
+		if global_position.y < 100:
+			global_position.y = 100

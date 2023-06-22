@@ -6,17 +6,38 @@ var mousepos = Vector2i()
 @onready var timer_asrama = $TimerAsrama
 @onready var timer_kampus = $TimerKampus
 
-var _test_asrama = true
-var _test_asrama_coord = Vector2(0,0)
-var _test_kampus = true
-var _test_kampus_coord = Vector2(800,800)
+class bangunan:
+	var siswa_count = 0
+	var posisi_gerbang = Vector2i()
+	
+	func _init(n : int, pos : Vector2i):
+		siswa_count = n
+		posisi_gerbang = pos
+	
+	func set_posisi_gerbang(posisi : Vector2i):
+		posisi_gerbang = posisi
+	
+	func get_posisi_gerbang():
+		return posisi_gerbang
+		
+
+class asrama extends bangunan:
+	func _init(pos : Vector2i):
+		super(2, pos)
+	
+
+class kampus extends bangunan:
+	func _init(pos : Vector2i):
+		super(0, pos)
+
 var _test_student = true
-var _test_student_queue = Array()
-var _test_start_point = PackedVector2Array()
-var _test_end_point = PackedVector2Array()
 var _test_student_res = preload("res://scenes/siswa.tscn")
+var list_asrama = Array()
+var list_kampus = Array()
 
 var rng = RandomNumberGenerator.new()
+
+signal camera_shake
 
 func _ready():
 	rng.randomize()
@@ -29,12 +50,12 @@ func _process(delta):
 	if _test_student:
 		if Input.is_action_just_pressed("test_summon_student"):
 			var _student = _test_student_res.instantiate()
-			_test_student_queue.append(_student)
-			var start_point = _test_start_point[rng.randi_range(0, _test_start_point.size()-1)]
-			var end_point = _test_end_point[rng.randi_range(0, _test_end_point.size()-1)]
+			var start_point = list_asrama[rng.randi_range(0, list_asrama.size()-1)].get_posisi_gerbang()
+			var end_point = list_kampus[rng.randi_range(0, list_kampus.size()-1)].get_posisi_gerbang()
 			_student.position = tilemap.map_to_local(start_point)
 			add_child(_student)
-			_test_student_queue.back().berangkat(start_point, end_point)
+			_student.berangkat(start_point, end_point)
+			_student.kecelakaan.connect(shake)
 	
 	mousepos = get_local_mouse_position()
 	if can_place:
@@ -44,6 +65,11 @@ func _process(delta):
 			tilemap.remove_road(mousepos)
 
 
+# Kirim sinyal camera_shake apabila terjadi tubrukan siswa
+func shake():
+	camera_shake.emit()
+
+
 # Menempatkan asrama baru setiap durasi waktu tertentu
 func _on_timer_asrama_timeout():
 	# tentukan posisi asrama secara acak
@@ -51,10 +77,11 @@ func _on_timer_asrama_timeout():
 	
 	# letakkan tile asrama dan dapatkan posisi gerbang
 	if tilemap.is_asrama_buildable(pos):
-		_test_start_point.append(tilemap.place_asrama())
+		var new_asrama = asrama.new(tilemap.place_asrama())
+		list_asrama.append(new_asrama)
 	
 	# batasi asrama sejumlah 4
-	if _test_start_point.size() == 4:
+	if list_asrama.size() == 4:
 		timer_asrama.stop()
 
 
@@ -65,8 +92,9 @@ func _on_timer_kampus_timeout():
 	
 	# letakkan tile kampus dan dapatkan posisi gerbang
 	if tilemap.is_kampus_buildable(pos):
-		_test_end_point.append(tilemap.place_kampus())
+		var new_kampus = kampus.new(tilemap.place_kampus())
+		list_kampus.append(new_kampus)
 	
 	# batasi kampus sejumlah 2
-	if _test_end_point.size() == 2:
+	if list_kampus.size() == 2:
 		timer_kampus.stop()

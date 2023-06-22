@@ -28,5 +28,6 @@ limit_top = -500
 limit_right = 3000
 limit_bottom = 3000
 
+[connection signal="camera_shake" from="Level" to="cam_container" method="_on_level_camera_shake"]
 [connection signal="timeout" from="Level/TimerAsrama" to="Level" method="_on_timer_asrama_timeout"]
 [connection signal="timeout" from="Level/TimerKampus" to="Level" method="_on_timer_kampus_timeout"]

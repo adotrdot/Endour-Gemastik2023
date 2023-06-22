@@ -1,7 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://btb8f2vdwdyxg"]
+[gd_scene load_steps=12 format=3 uid="uid://btb8f2vdwdyxg"]
 
 [ext_resource type="Script" path="res://scripts/character.gd" id="1_8y32o"]
 [ext_resource type="Texture2D" uid="uid://cnagufek4mwjy" path="res://assets/siswa/siswa.png" id="2_ixsd6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f6l7n"]
+radius = 13.0
+height = 56.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eygsh"]
+radius = 21.0
+height = 44.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nr6d7"]
+radius = 9.0
 
 [sub_resource type="Animation" id="Animation_sxh1r"]
 length = 0.001
@@ -28,10 +39,46 @@ tracks/0/path = NodePath("Sprite2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("collision_preventor:monitorable")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("collision_detector:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("collision_detector:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_hgq4r"]
@@ -63,6 +110,42 @@ tracks/1/keys = {
 "method": &"send_signal_asrama"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("collision_preventor:monitorable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("collision_detector:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("collision_detector:monitorable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_enskb"]
 resource_name = "sampai_kampus"
@@ -93,18 +176,120 @@ tracks/1/keys = {
 "method": &"send_signal_kampus"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("collision_preventor:monitorable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("collision_detector:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("collision_detector:monitorable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yhfk4"]
+resource_name = "destroy"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"destroy"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("collision_preventor:monitorable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("collision_detector:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("collision_detector:monitorable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ibrbo"]
 _data = {
 "RESET": SubResource("Animation_sxh1r"),
 "berangkat": SubResource("Animation_35nw4"),
+"destroy": SubResource("Animation_yhfk4"),
 "sampai_asrama": SubResource("Animation_hgq4r"),
 "sampai_kampus": SubResource("Animation_enskb")
 }
 
 [node name="Siswa" type="Marker2D"]
 z_index = 2
-position = Vector2(359, 283)
 script = ExtResource("1_8y32o")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -112,6 +297,34 @@ modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -20)
 rotation = -1.5708
 texture = ExtResource("2_ixsd6")
+
+[node name="front_detector" type="Area2D" parent="."]
+position = Vector2(33, -20)
+rotation = -1.57079
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="front_detector"]
+position = Vector2(7.62939e-06, 3)
+shape = SubResource("CapsuleShape2D_f6l7n")
+
+[node name="collision_preventor" type="Area2D" parent="."]
+position = Vector2(6, -20)
+rotation = -1.57079
+collision_mask = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_preventor"]
+position = Vector2(-9.53674e-06, -4)
+shape = SubResource("CapsuleShape2D_eygsh")
+
+[node name="collision_detector" type="Area2D" parent="."]
+position = Vector2(0, -20)
+collision_layer = 2
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_detector"]
+shape = SubResource("CircleShape2D_nr6d7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -122,4 +335,7 @@ libraries = {
 wait_time = 2.0
 one_shot = true
 
+[connection signal="area_entered" from="front_detector" to="." method="_on_front_detector_area_entered"]
+[connection signal="area_exited" from="front_detector" to="." method="_on_front_detector_area_exited"]
+[connection signal="area_entered" from="collision_detector" to="." method="_on_collision_detector_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

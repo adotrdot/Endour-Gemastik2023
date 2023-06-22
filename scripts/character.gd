@@ -6,7 +6,7 @@ enum State { IDLE, BERANGKAT, PULANG }
 const MASS = 10.0
 const ARRIVAL_DISTANCE = 10.0
 
-var speed = 150.0
+var speed = 75.0
 var state = State.IDLE
 var velocity = Vector2()
 
@@ -19,10 +19,13 @@ var posisi_kampus = Vector2i()
 
 signal sampai_kampus
 signal sampai_asrama
+signal kecelakaan
 
 @onready var sprite = $Sprite2D
 @onready var anim = $AnimationPlayer
 @onready var timer = $Timer
+@onready var front_detector = $front_detector
+@onready var collision = $collision_preventor
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -89,8 +92,33 @@ func send_signal_kampus():
 	
 	
 func send_signal_asrama():
+	destroy()
+	
+
+func destroy():
+	state = State.IDLE
 	queue_free()
 
 
 func _on_timer_timeout():
 	pulang(posisi_kampus, asal_asrama)
+
+
+# melambat apabila mendeteksi siswa lain di depan
+func _on_front_detector_area_entered(area):
+	if area == collision:
+		return
+	speed = 5
+
+
+# kembali ke kecepatan normal apabila tidak mendeteksi halangan di depan
+func _on_front_detector_area_exited(area):
+	if area == collision:
+		return
+	speed = 75
+
+
+# destroy apabila bertubrukan
+func _on_collision_detector_area_entered(area):
+	anim.play("destroy")
+	kecelakaan.emit()

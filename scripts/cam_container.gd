@@ -4,12 +4,22 @@ var is_panning = false
 @onready var camera = $Camera2D
 @export var cam_spd = 10
 
+var decay = 0.9
+var max_offset = Vector2(100,75)
+var max_roll = 0.1
+var trauma = 0.0
+var trauma_power = 2
+
 func _ready():
+	randomize()
 	camera.make_current()
 
 
 func _process(delta):
 	is_panning = Input.is_action_pressed("mb_mid")
+	if trauma:
+		trauma = max(trauma - decay * delta, 0)
+		shake()
 
 
 func _unhandled_input(event):
@@ -27,3 +37,18 @@ func _unhandled_input(event):
 			global_position.x = 200
 		if global_position.y < 100:
 			global_position.y = 100
+
+
+func add_trauma(amount):
+	trauma = min(trauma + amount, 0.5)
+
+
+func shake():
+	var amount = pow(trauma, trauma_power)
+	camera.rotation = max_roll * amount * randf_range(-1, 1)
+	camera.offset.x = max_offset.x * amount * randf_range(-1, 1)
+	camera.offset.y = max_offset.y * amount * randf_range(-1, 1)
+
+
+func _on_level_camera_shake():
+	add_trauma(0.5)

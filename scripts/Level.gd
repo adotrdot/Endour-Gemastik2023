@@ -6,32 +6,12 @@ var mousepos = Vector2i()
 @onready var timer_asrama = $TimerAsrama
 @onready var timer_kampus = $TimerKampus
 
-class bangunan:
-	var siswa_count = 0
-	var posisi_gerbang = Vector2i()
-	
-	func _init(n : int, pos : Vector2i):
-		siswa_count = n
-		posisi_gerbang = pos
-	
-	func set_posisi_gerbang(posisi : Vector2i):
-		posisi_gerbang = posisi
-	
-	func get_posisi_gerbang():
-		return posisi_gerbang
-		
 
-class asrama extends bangunan:
-	func _init(pos : Vector2i):
-		super(2, pos)
-	
 
-class kampus extends bangunan:
-	func _init(pos : Vector2i):
-		super(0, pos)
-
-var _test_student = true
-var _test_student_res = preload("res://scenes/siswa.tscn")
+#var _test_student = true
+var siswa_res = preload("res://scenes/siswa.tscn")
+var asrama_res = preload("res://scenes/asrama.tscn")
+var kampus_res = preload("res://scenes/kampus.tscn")
 var list_asrama = Array()
 var list_kampus = Array()
 
@@ -47,15 +27,15 @@ func _ready():
 
 
 func _process(delta):
-	if _test_student:
-		if Input.is_action_just_pressed("test_summon_student"):
-			var _student = _test_student_res.instantiate()
-			var start_point = list_asrama[rng.randi_range(0, list_asrama.size()-1)].get_posisi_gerbang()
-			var end_point = list_kampus[rng.randi_range(0, list_kampus.size()-1)].get_posisi_gerbang()
-			_student.position = tilemap.map_to_local(start_point)
-			add_child(_student)
-			_student.berangkat(start_point, end_point)
-			_student.kecelakaan.connect(shake)
+#	if _test_student:
+#		if Input.is_action_just_pressed("test_summon_student"):
+#			var _student = _test_student_res.instantiate()
+#			var start_point = list_asrama[rng.randi_range(0, list_asrama.size()-1)].get_posisi_gerbang()
+#			var end_point = list_kampus[rng.randi_range(0, list_kampus.size()-1)].get_posisi_gerbang()
+#			_student.position = tilemap.map_to_local(start_point)
+#			add_child(_student)
+#			_student.berangkat(start_point, end_point)
+#			_student.kecelakaan.connect(shake)
 	
 	mousepos = get_local_mouse_position()
 	if can_place:
@@ -77,11 +57,17 @@ func _on_timer_asrama_timeout():
 	
 	# letakkan tile asrama dan dapatkan posisi gerbang
 	if tilemap.is_asrama_buildable(pos):
-		var new_asrama = asrama.new(tilemap.place_asrama())
+		var new_asrama = asrama_res.instantiate()
+		add_child(new_asrama)
+		new_asrama.global_position = tilemap.map_to_local(tilemap.local_to_map(pos))
+		new_asrama.init(tilemap.place_asrama())
 		list_asrama.append(new_asrama)
+		if not list_kampus.is_empty():
+			for kampus in list_kampus:
+				kampus.add_asrama(new_asrama)
 	
 	# batasi asrama sejumlah 4
-	if list_asrama.size() == 4:
+	if list_asrama.size() == 2:
 		timer_asrama.stop()
 
 
@@ -92,9 +78,24 @@ func _on_timer_kampus_timeout():
 	
 	# letakkan tile kampus dan dapatkan posisi gerbang
 	if tilemap.is_kampus_buildable(pos):
-		var new_kampus = kampus.new(tilemap.place_kampus())
+		var new_kampus = kampus_res.instantiate()
+		add_child(new_kampus)
+		new_kampus.global_position = tilemap.map_to_local(tilemap.local_to_map(pos))
+		new_kampus.init(tilemap.place_kampus(), list_asrama.duplicate())
+		new_kampus.send_request_siswa.connect(_on_request_siswa)
+		new_kampus.request_fail.connect(shake)
 		list_kampus.append(new_kampus)
 	
 	# batasi kampus sejumlah 2
-	if list_kampus.size() == 2:
+	if list_kampus.size() == 1:
 		timer_kampus.stop()
+
+
+# Kirim siswa
+func _on_request_siswa(asrama_asal, kampus_tujuan, path):
+	var new_siswa = siswa_res.instantiate()
+	new_siswa.position = tilemap.map_to_local(asrama_asal.posisi_gerbang)
+	add_child(new_siswa)
+	new_siswa.kecelakaan.connect(shake)
+	new_siswa.set_path(asrama_asal, kampus_tujuan, path)
+	new_siswa.berangkat()

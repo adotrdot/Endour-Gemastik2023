@@ -13,9 +13,11 @@ var velocity = Vector2()
 @onready var tilemap = get_node("../TileMap")
 
 var path = PackedVector2Array()
+var path_berangkat = PackedVector2Array()
+var path_pulang = PackedVector2Array()
 var next_point = Vector2()
-var asal_asrama = Vector2i()
-var posisi_kampus = Vector2i()
+var asrama_asal = null
+var kampus_tujuan = null
 
 signal sampai_kampus
 signal sampai_asrama
@@ -60,33 +62,29 @@ func move_to(local_position):
 	return position.distance_to(local_position) < ARRIVAL_DISTANCE
 
 
-func berangkat(start_point, end_point):
-	asal_asrama = start_point
-	posisi_kampus = end_point
-	
-	# batalkan apabila path tidak ditemukan
-	if not set_path(start_point, end_point):
-		queue_free()
-		return
-	
+func set_path(asrama_asal, kampus_tujuan, path):
+	self.asrama_asal = asrama_asal
+	self.kampus_tujuan = kampus_tujuan
+	path_berangkat = path.duplicate()
+	path_pulang = path.duplicate()
+	path_pulang.reverse()
+
+
+func berangkat():
+	path = path_berangkat
+	next_point = path[1]
 	state = State.BERANGKAT
 	anim.play("berangkat")
 
 
-func pulang(start_point, end_point):
-	set_path(start_point, end_point)
+func pulang():
+	path = path_pulang
 	state = State.PULANG
 	anim.play("berangkat")
 	
 
-func set_path(start_point, end_point):
-	path = tilemap.find_path(start_point, end_point)
-	if path.is_empty():
-		return false
-	next_point = path[1]
-	return true
-
 func send_signal_kampus():
+	kampus_tujuan.pop_request()
 	sampai_kampus.emit()
 	timer.start()
 	
@@ -101,7 +99,7 @@ func destroy():
 
 
 func _on_timer_timeout():
-	pulang(posisi_kampus, asal_asrama)
+	pulang()
 
 
 # melambat apabila mendeteksi siswa lain di depan

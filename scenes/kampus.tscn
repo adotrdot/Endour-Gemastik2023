@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://uiefsdjjjxth"]
+
+[ext_resource type="Script" path="res://scripts/Kampus.gd" id="1_nhyr1"]
+
+[node name="Kampus" type="Node2D"]
+script = ExtResource("1_nhyr1")

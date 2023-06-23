@@ -40,6 +40,7 @@ func _process(delta):
 	mousepos = get_local_mouse_position()
 	if can_place:
 		if Input.is_action_pressed("mb_left"):
+			print(mousepos)
 			tilemap.place_road(mousepos)
 		elif Input.is_action_pressed("mb_right"):
 			tilemap.remove_road(mousepos)
@@ -53,7 +54,7 @@ func shake():
 # Menempatkan asrama baru setiap durasi waktu tertentu
 func _on_timer_asrama_timeout():
 	# tentukan posisi asrama secara acak
-	var pos = Vector2(rng.randi_range(0,800), rng.randi_range(0,800))
+	var pos = Vector2(rng.randi_range(0,1000), rng.randi_range(0,1000))
 	
 	# letakkan tile asrama dan dapatkan posisi gerbang
 	if tilemap.is_asrama_buildable(pos):
@@ -67,14 +68,14 @@ func _on_timer_asrama_timeout():
 				kampus.add_asrama(new_asrama)
 	
 	# batasi asrama sejumlah 4
-	if list_asrama.size() == 2:
+	if list_asrama.size() == 4:
 		timer_asrama.stop()
 
 
 # Menempatkan kampus baru setiap durasi waktu tertentu
 func _on_timer_kampus_timeout():
 	# tentukan posisi kampus secara acak
-	var pos = Vector2(rng.randi_range(0,800), rng.randi_range(0,800))
+	var pos = Vector2(rng.randi_range(0,1000), rng.randi_range(0,1000))
 	
 	# letakkan tile kampus dan dapatkan posisi gerbang
 	if tilemap.is_kampus_buildable(pos):
@@ -87,7 +88,7 @@ func _on_timer_kampus_timeout():
 		list_kampus.append(new_kampus)
 	
 	# batasi kampus sejumlah 2
-	if list_kampus.size() == 1:
+	if list_kampus.size() == 2:
 		timer_kampus.stop()
 
 

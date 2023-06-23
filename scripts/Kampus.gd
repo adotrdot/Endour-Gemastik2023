@@ -49,12 +49,12 @@ func add_asrama(new_asrama):
 			asrama_terkait.insert(i, new_asrama)
 		
 func add_request():
+	if list_requests.size() == req_limit:
+		return
 	var new_request = req_res.instantiate()
 	add_child(new_request)
 	new_request.request_timeout.connect(_on_request_timeout)
 	list_requests.append(new_request)
-	if list_requests.size() == req_limit:
-		req_timer.stop()
 	
 
 func _on_request_timeout():
@@ -63,6 +63,7 @@ func _on_request_timeout():
 
 
 func pop_request():
+	siswa_count -= 1
 	var request = list_requests.pop_front()
 	request.queue_free()
 
@@ -79,6 +80,6 @@ func request_siswa():
 				asrama_terdekat = asrama
 				break
 	if asrama_terdekat != null:
-		print(asrama_terdekat)
+		asrama_terdekat.siswa_count -= 1
 		siswa_count += 1
 		send_request_siswa.emit(asrama_terdekat, self, path)

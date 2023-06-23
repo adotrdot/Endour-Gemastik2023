@@ -10,6 +10,8 @@ var kampus_atlas_coords = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i
 
 
 func place_road(local_mousepos):
+	if local_mousepos.x < 0 or local_mousepos.y < 0:
+		return
 	var tilepos = local_to_map(local_mousepos)
 	if get_cell_source_id(1,tilepos) in [1,2]:
 		return
@@ -88,6 +90,7 @@ func is_kampus_buildable(pos):
 
 
 func find_path(start_point, end_point):
+	var map_topleft_limit = local_to_map(Vector2i(200,100))
 	var map_size = get_used_rect().end
 
 	astar.size = map_size

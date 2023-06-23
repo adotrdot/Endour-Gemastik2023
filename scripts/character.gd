@@ -4,9 +4,9 @@ extends Marker2D
 enum State { IDLE, BERANGKAT, PULANG }
 
 const MASS = 10.0
-const ARRIVAL_DISTANCE = 10.0
+const ARRIVAL_DISTANCE = 20.0
 
-var speed = 75.0
+var speed = 100.0
 var state = State.IDLE
 var velocity = Vector2()
 
@@ -94,6 +94,7 @@ func send_signal_asrama():
 	
 
 func destroy():
+	asrama_asal.siswa_count += 1
 	state = State.IDLE
 	queue_free()
 

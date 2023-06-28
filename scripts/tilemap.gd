@@ -10,9 +10,9 @@ var kampus_atlas_coords = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i
 
 
 func place_road(local_mousepos):
-	if local_mousepos.x < 0 or local_mousepos.y < 0:
-		return
 	var tilepos = local_to_map(local_mousepos)
+	if tilepos.x < -1 or tilepos.y < -1:
+		return
 	if get_cell_source_id(1,tilepos) in [1,2]:
 		return
 	set_cells_terrain_connect(0, [tilepos], 0, 0)

@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://btb8f2vdwdyxg"]
+[gd_scene load_steps=11 format=3 uid="uid://btb8f2vdwdyxg"]
 
 [ext_resource type="Script" path="res://scripts/character.gd" id="1_8y32o"]
-[ext_resource type="Texture2D" uid="uid://cnagufek4mwjy" path="res://assets/siswa/siswa.png" id="2_ixsd6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f6l7n"]
 radius = 13.0
@@ -296,7 +295,6 @@ script = ExtResource("1_8y32o")
 modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -20)
 rotation = -1.5708
-texture = ExtResource("2_ixsd6")
 
 [node name="front_detector" type="Area2D" parent="."]
 position = Vector2(33, -20)

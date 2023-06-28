@@ -13,21 +13,13 @@ script = ExtResource("1_k6mty")
 [node name="TileMap" parent="Level" instance=ExtResource("2_marce")]
 script = ExtResource("3_uwblg")
 
-[node name="TimerAsrama" type="Timer" parent="Level"]
-wait_time = 3.0
-
-[node name="TimerKampus" type="Timer" parent="Level"]
-wait_time = 5.0
-
 [node name="cam_container" type="Node2D" parent="."]
 script = ExtResource("3_vqskw")
 
 [node name="Camera2D" type="Camera2D" parent="cam_container"]
 limit_left = -1000
 limit_top = -500
-limit_right = 3000
-limit_bottom = 3000
+limit_right = 10000
+limit_bottom = 10000
 
 [connection signal="camera_shake" from="Level" to="cam_container" method="_on_level_camera_shake"]
-[connection signal="timeout" from="Level/TimerAsrama" to="Level" method="_on_timer_asrama_timeout"]
-[connection signal="timeout" from="Level/TimerKampus" to="Level" method="_on_timer_kampus_timeout"]

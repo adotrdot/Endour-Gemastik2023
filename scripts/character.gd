@@ -29,6 +29,10 @@ signal kecelakaan
 @onready var front_detector = $front_detector
 @onready var collision = $collision_preventor
 
+var blue_variant = preload("res://assets/siswa/siswa-blue.png")
+var green_variant = preload("res://assets/siswa/siswa-green.png")
+var red_variant = preload("res://assets/siswa/siswa-red.png")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	state = State.IDLE
@@ -52,6 +56,16 @@ func _process(delta):
 			return
 		next_point = path[0]
 	
+	
+func set_blue():
+	sprite.set_texture(blue_variant)
+	
+func set_green():
+	sprite.set_texture(green_variant)
+	
+func set_red():
+	sprite.set_texture(red_variant)
+
 
 func move_to(local_position):
 	var desired_velocity = (local_position - position).normalized() * speed
@@ -90,6 +104,7 @@ func send_signal_kampus():
 	
 	
 func send_signal_asrama():
+	sampai_asrama.emit()
 	destroy()
 	
 

@@ -18,3 +18,8 @@ func set_green():
 	
 func set_red():
 	sprite.set_texture(red_variant)
+
+
+func respawn_siswa():
+	await get_tree().create_timer(5).timeout
+	siswa_count += 1

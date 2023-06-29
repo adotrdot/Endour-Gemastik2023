@@ -31,7 +31,7 @@ var random_place_asrama = false
 var random_place_kampus = false
 var asrama_to_be_placed = 0
 var kampus_to_be_placed = 0
-var min_rect = Vector2(0,0)
+var min_rect = Vector2(80,80)
 var max_rect = Vector2(1000,1000)
 
 var rng = RandomNumberGenerator.new()
@@ -42,11 +42,10 @@ func _ready():
 	rng.randomize()
 	
 	# create first asrama & kampus
-	tilemap.is_asrama_buildable(Vector2(0,0))
+	tilemap.is_asrama_buildable(Vector2(80,80))
 	var new_asrama = asrama_res.instantiate()
 	add_child(new_asrama)
-	new_asrama.global_position = tilemap.map_to_local(tilemap.local_to_map(Vector2(0,0)))
-	new_asrama.init(tilemap.place_asrama())
+	new_asrama.init(tilemap.place_asrama(new_asrama, rng.randi_range(0, 3)))
 	new_asrama.set_blue()
 	list_asrama_blue.append(new_asrama)
 	
@@ -89,8 +88,7 @@ func _process(delta):
 		if tilemap.is_asrama_buildable(pos):
 			var new_asrama = asrama_res.instantiate()
 			add_child(new_asrama)
-			new_asrama.global_position = tilemap.map_to_local(tilemap.local_to_map(pos))
-			new_asrama.init(tilemap.place_asrama())
+			new_asrama.init(tilemap.place_asrama(new_asrama, rng.randi_range(0, 3)))
 			match color:
 				BLUE:
 					new_asrama.set_blue()

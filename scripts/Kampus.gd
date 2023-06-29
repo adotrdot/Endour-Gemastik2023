@@ -9,6 +9,16 @@ var green_variant = preload("res://assets/kampus/kampus-green.png")
 var red_variant = preload("res://assets/kampus/kampus-red.png")
 @onready var sprite = $Sprite2D
 
+var pin_blue = preload("res://assets/pin/pin-blue.png")
+var pin_green = preload("res://assets/pin/pin-green.png")
+var pin_red = preload("res://assets/pin/pin-red.png")
+@onready var pin1 = $pin1
+@onready var pin2 = $pin2
+@onready var pin3 = $pin3
+@onready var pin4 = $pin4
+@onready var pin5 = $pin5
+@onready var pins = [pin1,pin2,pin3,pin4,pin5]
+
 var asrama_terkait = Array()
 var list_requests = Array()
 @onready var req_res = preload("res://scenes/student_request.tscn")
@@ -21,6 +31,10 @@ signal send_request_siswa(asrama_asal, kampus_tujuan, warna, path)
 
 enum { BLUE, GREEN, RED }
 var color = BLUE
+
+func _ready():
+	for pin in pins:
+		pin.visible = false
 
 func _process(delta):
 	pass
@@ -37,19 +51,25 @@ func init(pos : Vector2, list_asrama : Array):
 	req_timer.start(10)
 	add_child(siswa_timer)
 	siswa_timer.timeout.connect(request_siswa)
-	siswa_timer.start(0.5)
+	siswa_timer.start(1.5)
 	
 
 func set_blue():
 	sprite.set_texture(blue_variant)
+	for pin in pins:
+		pin.set_texture(pin_blue)
 	color = BLUE
 	
 func set_green():
 	sprite.set_texture(green_variant)
+	for pin in pins:
+		pin.set_texture(pin_green)
 	color = GREEN
 	
 func set_red():
 	sprite.set_texture(red_variant)
+	for pin in pins:
+		pin.set_texture(pin_red)
 	color = RED
 	
 	
@@ -76,6 +96,7 @@ func add_request():
 	var new_request = req_res.instantiate()
 	add_child(new_request)
 	list_requests.append(new_request)
+	pins[list_requests.size()-1].visible = true
 	
 
 func _on_request_timeout():
@@ -84,6 +105,7 @@ func _on_request_timeout():
 
 func pop_request():
 	siswa_count -= 1
+	pins[list_requests.size()-1].visible = false
 	var request = list_requests.pop_front()
 	request.queue_free()
 

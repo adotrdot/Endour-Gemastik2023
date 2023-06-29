@@ -104,12 +104,12 @@ func send_signal_kampus():
 	
 	
 func send_signal_asrama():
+	asrama_asal.siswa_count += 1
 	sampai_asrama.emit()
 	destroy()
 	
 
 func destroy():
-	asrama_asal.siswa_count += 1
 	state = State.IDLE
 	queue_free()
 
@@ -136,3 +136,5 @@ func _on_front_detector_area_exited(area):
 func _on_collision_detector_area_entered(area):
 	anim.play("destroy")
 	kecelakaan.emit()
+	asrama_asal.respawn_siswa()
+	kampus_tujuan.siswa_count -= 1

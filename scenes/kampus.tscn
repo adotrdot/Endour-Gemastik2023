@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://uiefsdjjjxth"]
+[gd_scene load_steps=4 format=3 uid="uid://uiefsdjjjxth"]
 
 [ext_resource type="Script" path="res://scripts/Kampus.gd" id="1_nhyr1"]
 [ext_resource type="Texture2D" uid="uid://bhl1ghuqqca7o" path="res://assets/kampus/kampus-blue.png" id="2_6xi7j"]
+[ext_resource type="Texture2D" uid="uid://cif4wontilsyv" path="res://assets/pin/pin-blue.png" id="3_hbtp6"]
 
 [node name="Kampus" type="Node2D"]
 script = ExtResource("1_nhyr1")
@@ -10,3 +11,23 @@ script = ExtResource("1_nhyr1")
 texture = ExtResource("2_6xi7j")
 centered = false
 offset = Vector2(-40, -40)
+
+[node name="pin1" type="Sprite2D" parent="."]
+texture = ExtResource("3_hbtp6")
+offset = Vector2(20, 30)
+
+[node name="pin2" type="Sprite2D" parent="."]
+texture = ExtResource("3_hbtp6")
+offset = Vector2(50, 30)
+
+[node name="pin3" type="Sprite2D" parent="."]
+texture = ExtResource("3_hbtp6")
+offset = Vector2(80, 30)
+
+[node name="pin4" type="Sprite2D" parent="."]
+texture = ExtResource("3_hbtp6")
+offset = Vector2(110, 30)
+
+[node name="pin5" type="Sprite2D" parent="."]
+texture = ExtResource("3_hbtp6")
+offset = Vector2(140, 30)

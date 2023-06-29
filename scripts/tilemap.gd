@@ -3,17 +3,16 @@ extends TileMap
 const TILE_SIZE = Vector2i(80,80)
 var astar = AStarGrid2D.new()
 
-var asrama_coords = PackedVector2Array()
+var asrama_coords = Array()
 var asrama_atlas_coords = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i(1,1)]
-var kampus_coords = PackedVector2Array()
+var kampus_coords = Array()
 var kampus_atlas_coords = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i(1,1), Vector2i(2,0), Vector2i(2,1)]
 
+enum FACING { UP, LEFT, RIGHT, DOWN }
 
 func place_road(local_mousepos):
 	var tilepos = local_to_map(local_mousepos)
-	if tilepos.x < -1 or tilepos.y < -1:
-		return
-	if get_cell_source_id(1,tilepos) in [1,2]:
+	if tilepos.x < 0 or tilepos.y < 0 or get_cell_source_id(1,tilepos) in [1,2]:
 		return
 	set_cells_terrain_connect(0, [tilepos], 0, 0)
 
@@ -30,11 +29,21 @@ func remove_road(local_mousepos):
 
 
 # method untuk menempatkan asrama pada map
-func place_asrama():
+func place_asrama(asrama, facing):
 	for i in range(asrama_coords.size()):
 		set_cell(1,asrama_coords[i],1,asrama_atlas_coords[i])
-	set_cells_terrain_connect(0, [asrama_coords[-1]], 0, 0)
-	return asrama_coords[-1] # return koordinat gerbang
+	asrama.position = map_to_local(asrama_coords[0])
+	var gerbangpos = asrama_coords[facing]
+	match facing:
+		FACING.LEFT:
+			asrama.sprite.flip_h = true
+		FACING.UP:
+			asrama.sprite.flip_h = true
+			asrama.sprite.flip_v = true
+		FACING.RIGHT:
+			asrama.sprite.flip_v = true
+	set_cells_terrain_connect(0, [gerbangpos], 0, 0)
+	return gerbangpos # return koordinat gerbang
 
 
 # method untuk memeriksa apakah ada jalan/bangunan yang akan

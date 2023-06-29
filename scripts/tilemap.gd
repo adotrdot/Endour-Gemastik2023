@@ -12,7 +12,7 @@ enum FACING { UP, LEFT, RIGHT, DOWN }
 
 func place_road(local_mousepos):
 	var tilepos = local_to_map(local_mousepos)
-	if tilepos.x < 0 or tilepos.y < 0 or get_cell_source_id(1,tilepos) in [1,2]:
+	if tilepos.x < 0 or tilepos.x > 50 or tilepos.y < 0 or tilepos.y > 28 or get_cell_source_id(1,tilepos) in [1,2]:
 		return
 	set_cells_terrain_connect(0, [tilepos], 0, 0)
 

@@ -127,7 +127,6 @@ func _process(delta):
 			else:
 				colors.shuffle()
 				color = colors.front()
-		print(color)
 		# tentukan posisi kampus secara acak
 		var pos = Vector2(rng.randi_range(min_rect.x,max_rect.x), rng.randi_range(min_rect.y,max_rect.y))
 		

@@ -60,7 +60,6 @@ func _unhandled_input(event):
 			global_position.y = 850 if global_position.y < 850 else global_position.y
 		if global_position.y > 1400:
 			global_position.y = 1400
-	print(global_position)
 
 
 func add_trauma(amount):

@@ -76,7 +76,7 @@ func _process(delta):
 	if asrama_to_be_placed > 0:
 		# tentukan warna asrama
 		var color = BLUE
-		if list_asrama_blue.size() >= 4:
+		if list_asrama_blue.size() >= 2:
 			var colors = [BLUE, GREEN, RED]
 			colors.shuffle()
 			color = colors.front()
@@ -114,7 +114,7 @@ func _process(delta):
 	if kampus_to_be_placed > 0:
 		# tentukan warna kampus
 		var color = BLUE
-		if list_asrama_blue.size() >= 4:
+		if list_asrama_blue.size() >= 2:
 			var colors = [BLUE, GREEN, RED]
 			if list_asrama_blue.is_empty() or list_asrama_blue.size() < list_kampus_blue.size() * 2:
 				colors.erase(BLUE)
@@ -178,8 +178,8 @@ func shake():
 
 func add_poin():
 	poin += 1
-	min_rect += Vector2(5,5)
-	max_rect += Vector2(20,20)
+	max_rect.x = max_rect.x + 20 if max_rect.x < 3850 else max_rect.x
+	max_rect.y = max_rect.y + 20 if max_rect.y < 2150 else max_rect.y
 	if poin < 20:
 		if poin % 3 == 0:
 			asrama_to_be_placed += 1

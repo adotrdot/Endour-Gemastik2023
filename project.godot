@@ -17,7 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Lists="*res://scripts/lists.gd"
 Bangunan="*res://scripts/bangunan.gd"
+BaseJalan="*res://scripts/base_jalan.gd"
 
 [display]
 

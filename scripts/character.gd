@@ -110,6 +110,7 @@ func send_signal_asrama():
 	
 
 func destroy():
+	Lists.siswa.erase(self)
 	state = State.IDLE
 	queue_free()
 

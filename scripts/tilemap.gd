@@ -7,15 +7,20 @@ var asrama_coords = Array()
 var asrama_atlas_coords = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i(1,1)]
 var kampus_coords = Array()
 var kampus_atlas_coords = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i(1,1), Vector2i(2,0), Vector2i(2,1)]
+var road_coord = Vector2i()
 
 enum FACING { UP, LEFT, RIGHT, DOWN }
 
-func place_road(local_mousepos):
-	var tilepos = local_to_map(local_mousepos)
-	if tilepos.x < 0 or tilepos.x > 50 or tilepos.y < 0 or tilepos.y > 28 or get_cell_source_id(1,tilepos) in [1,2]:
-		return
-	set_cells_terrain_connect(0, [tilepos], 0, 0)
 
+func is_road_buildable(local_mousepos):
+	road_coord = local_to_map(local_mousepos)
+	if road_coord.x < 0 or road_coord.x > 50 or road_coord.y < 0 or road_coord.y > 28 or get_cell_source_id(0,road_coord) == 0 or get_cell_source_id(1,road_coord) in [1,2]:
+		return false
+	return true
+
+func place_road(new_road):
+	set_cells_terrain_connect(0, [road_coord], 0, 0)
+	new_road.position = map_to_local(road_coord)
 
 func remove_road(local_mousepos):
 	var tilepos = local_to_map(local_mousepos)
@@ -99,7 +104,6 @@ func is_kampus_buildable(pos):
 
 
 func find_path(start_point, end_point):
-	var map_topleft_limit = local_to_map(Vector2i(200,100))
 	var map_size = get_used_rect().end
 
 	astar.size = map_size

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bd1pwekpm66cn" path="res://assets/asrama/asrama-blue.png" id="2_agoua"]
 
 [node name="Asrama" type="Node2D"]
+z_index = 1
 script = ExtResource("1_7v340")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cif4wontilsyv" path="res://assets/pin/pin-blue.png" id="3_hbtp6"]
 
 [node name="Kampus" type="Node2D"]
+z_index = 1
 script = ExtResource("1_nhyr1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

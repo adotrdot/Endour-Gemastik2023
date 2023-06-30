@@ -107,7 +107,8 @@ func pop_request():
 	siswa_count -= 1
 	pins[list_requests.size()-1].visible = false
 	var request = list_requests.pop_front()
-	request.queue_free()
+	if request != null:
+		request.queue_free()
 
 
 func request_siswa():

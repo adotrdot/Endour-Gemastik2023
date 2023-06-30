@@ -10,16 +10,10 @@ var mousepos = Vector2i()
 var siswa_res = preload("res://scenes/siswa.tscn")
 var asrama_res = preload("res://scenes/asrama.tscn")
 var kampus_res = preload("res://scenes/kampus.tscn")
+var jalan_res = preload("res://scenes/jalan.tscn")
+
 
 # variasi warna asrama dan kampus
-var list_asrama = Array()
-var list_asrama_blue = Array()
-var list_asrama_green = Array()
-var list_asrama_red = Array()
-var list_kampus = Array()
-var list_kampus_blue = Array()
-var list_kampus_green = Array()
-var list_kampus_red = Array()
 enum { BLUE, GREEN, RED }
 
 # penempatan acak asrama & kampus
@@ -41,23 +35,32 @@ signal camera_shake
 func _ready():
 	rng.randomize()
 	
+	# prepare lists
+	Lists.siswa.clear()
+	Lists.asrama_blue.clear()
+	Lists.asrama_green.clear()
+	Lists.asrama_red.clear()
+	Lists.kampus_blue.clear()
+	Lists.kampus_green.clear()
+	Lists.kampus_red.clear()
+	
 	# create first asrama & kampus
 	tilemap.is_asrama_buildable(Vector2(80,80))
 	var new_asrama = asrama_res.instantiate()
 	add_child(new_asrama)
 	new_asrama.init(tilemap.place_asrama(new_asrama, rng.randi_range(0, 3)))
 	new_asrama.set_blue()
-	list_asrama_blue.append(new_asrama)
+	Lists.asrama_blue.append(new_asrama)
 	
 	tilemap.is_kampus_buildable(Vector2(400,200))
 	var new_kampus = kampus_res.instantiate()
 	add_child(new_kampus)
 	new_kampus.global_position = tilemap.map_to_local(tilemap.local_to_map(Vector2(400,200)))
-	new_kampus.init(tilemap.place_kampus(), list_asrama_blue.duplicate())
+	new_kampus.init(tilemap.place_kampus(), Lists.asrama_blue.duplicate())
 	new_kampus.set_blue()
 	new_kampus.send_request_siswa.connect(_on_request_siswa)
 	new_kampus.gameover.connect(shake)
-	list_kampus_blue.append(new_kampus)
+	Lists.kampus_blue.append(new_kampus)
 	
 	can_place = true
 	pass
@@ -66,8 +69,10 @@ func _ready():
 func _process(delta):
 	mousepos = get_local_mouse_position()
 	if can_place:
-		if Input.is_action_pressed("mb_left"):
-			tilemap.place_road(mousepos)
+		if Input.is_action_pressed("mb_left") and tilemap.is_road_buildable(mousepos):
+			var new_jalan = jalan_res.instantiate()
+			add_child(new_jalan)
+			tilemap.place_road(new_jalan)
 		elif Input.is_action_pressed("mb_right"):
 			tilemap.remove_road(mousepos)
 
@@ -76,7 +81,7 @@ func _process(delta):
 	if asrama_to_be_placed > 0:
 		# tentukan warna asrama
 		var color = BLUE
-		if list_asrama_blue.size() >= 2:
+		if Lists.asrama_blue.size() >= 2:
 			var colors = [BLUE, GREEN, RED]
 			colors.shuffle()
 			color = colors.front()
@@ -92,21 +97,21 @@ func _process(delta):
 			match color:
 				BLUE:
 					new_asrama.set_blue()
-					list_asrama_blue.append(new_asrama)
-					if not list_kampus_blue.is_empty():
-						for kampus in list_kampus_blue:
+					Lists.asrama_blue.append(new_asrama)
+					if not Lists.kampus_blue.is_empty():
+						for kampus in Lists.kampus_blue:
 							kampus.add_asrama(new_asrama)
 				GREEN:
 					new_asrama.set_green()
-					list_asrama_green.append(new_asrama)
-					if not list_kampus_green.is_empty():
-						for kampus in list_kampus_green:
+					Lists.asrama_green.append(new_asrama)
+					if not Lists.kampus_green.is_empty():
+						for kampus in Lists.kampus_green:
 							kampus.add_asrama(new_asrama)
 				RED:
 					new_asrama.set_red()
-					list_asrama_red.append(new_asrama)
-					if not list_kampus_red.is_empty():
-						for kampus in list_kampus_red:
+					Lists.asrama_red.append(new_asrama)
+					if not Lists.kampus_red.is_empty():
+						for kampus in Lists.kampus_red:
 							kampus.add_asrama(new_asrama)
 			asrama_to_be_placed -= 1
 			
@@ -114,13 +119,13 @@ func _process(delta):
 	if kampus_to_be_placed > 0:
 		# tentukan warna kampus
 		var color = BLUE
-		if list_asrama_blue.size() >= 2:
+		if Lists.asrama_blue.size() >= 2:
 			var colors = [BLUE, GREEN, RED]
-			if list_asrama_blue.is_empty() or list_asrama_blue.size() < list_kampus_blue.size() * 2:
+			if Lists.asrama_blue.is_empty() or Lists.asrama_blue.size() < Lists.kampus_blue.size() * 2:
 				colors.erase(BLUE)
-			if list_asrama_green.is_empty() or list_asrama_green.size() < list_kampus_green.size() * 2:
+			if Lists.asrama_green.is_empty() or Lists.asrama_green.size() < Lists.kampus_green.size() * 2:
 				colors.erase(GREEN)
-			if list_asrama_red.is_empty() or list_asrama_red.size() < list_kampus_red.size() * 2:
+			if Lists.asrama_red.is_empty() or Lists.asrama_red.size() < Lists.kampus_red.size() * 2:
 				colors.erase(RED)
 			if colors.is_empty():
 				color = -1
@@ -137,17 +142,17 @@ func _process(delta):
 			new_kampus.global_position = tilemap.map_to_local(tilemap.local_to_map(pos))
 			match color:
 				BLUE:
-					new_kampus.init(tilemap.place_kampus(), list_asrama_blue.duplicate())
+					new_kampus.init(tilemap.place_kampus(), Lists.asrama_blue.duplicate())
 					new_kampus.set_blue()
-					list_kampus_blue.append(new_kampus)
+					Lists.kampus_blue.append(new_kampus)
 				GREEN:
-					new_kampus.init(tilemap.place_kampus(), list_asrama_green.duplicate())
+					new_kampus.init(tilemap.place_kampus(), Lists.asrama_green.duplicate())
 					new_kampus.set_green()
-					list_kampus_green.append(new_kampus)
+					Lists.kampus_green.append(new_kampus)
 				RED:
-					new_kampus.init(tilemap.place_kampus(), list_asrama_red.duplicate())
+					new_kampus.init(tilemap.place_kampus(), Lists.asrama_red.duplicate())
 					new_kampus.set_red()
-					list_kampus_red.append(new_kampus)
+					Lists.kampus_red.append(new_kampus)
 			new_kampus.send_request_siswa.connect(_on_request_siswa)
 			new_kampus.gameover.connect(shake)
 			kampus_to_be_placed -= 1
@@ -156,6 +161,7 @@ func _process(delta):
 # Kirim siswa
 func _on_request_siswa(asrama_asal, kampus_tujuan, warna, path):
 	var new_siswa = siswa_res.instantiate()
+	Lists.siswa.append(new_siswa)
 	new_siswa.position = tilemap.map_to_local(asrama_asal.posisi_gerbang)
 	add_child(new_siswa)
 	match warna:
@@ -186,7 +192,7 @@ func add_poin():
 		if poin % 5 == 0:
 			kampus_to_be_placed += 1
 	elif poin < 100:
-		if poin % 5 == 0:
+		if poin % 7 == 0:
 			asrama_to_be_placed += 1
-		if poin % 10 == 0:
+		if poin % 15 == 0:
 			kampus_to_be_placed += 1

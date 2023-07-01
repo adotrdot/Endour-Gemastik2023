@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://bd1pwekpm66cn" path="res://assets/asrama/asrama-blue.png" id="2_agoua"]
 
 [node name="Asrama" type="Node2D"]
-z_index = 1
+z_index = 2
 script = ExtResource("1_7v340")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_agoua")
 centered = false
-offset = Vector2(-60, -60)
+offset = Vector2(-40, -40)

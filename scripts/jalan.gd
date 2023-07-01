@@ -12,6 +12,8 @@ var delete_process = false
 
 func _ready():
 	sprite.set_texture(BaseJalan.res_junction_midmid)
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_BOUNCE)
 
 
 func _process(delta):

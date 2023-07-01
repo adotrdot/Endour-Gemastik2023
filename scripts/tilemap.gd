@@ -48,7 +48,8 @@ func place_asrama(asrama, facing):
 		FACING.RIGHT:
 			asrama.sprite.flip_v = true
 	set_cells_terrain_connect(0, [gerbangpos], 0, 0)
-	return gerbangpos # return koordinat gerbang
+	asrama_coords.erase(gerbangpos)
+	return [gerbangpos, map_to_local(gerbangpos)] + asrama_coords # return koordinat gerbang, koordinat global + semua koordinat tile asrama
 
 
 # method untuk memeriksa apakah ada jalan/bangunan yang akan

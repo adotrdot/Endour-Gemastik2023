@@ -33,6 +33,7 @@ var blue_variant = preload("res://assets/siswa/siswa-blue.png")
 var green_variant = preload("res://assets/siswa/siswa-green.png")
 var red_variant = preload("res://assets/siswa/siswa-red.png")
 
+var first_spawn = true
 var first_point = false
 
 # Called when the node enters the scene tree for the first time.
@@ -44,9 +45,15 @@ func _ready():
 func _process(delta):
 	if state  == State.IDLE:
 		return
+	if state == State.BERANGKAT and first_spawn:
+		next_point = asrama_asal.posisi_gerbang_global
 	var arrived_to_next_point = move_to(next_point)
 	if arrived_to_next_point:
-		if first_point:
+		if first_spawn:
+			next_point = path[0]
+			first_point = true
+			first_spawn = false
+		elif first_point:
 			if path.size() == 1:
 				if state == State.BERANGKAT:
 					# berhasil berangkat sampai kampus
@@ -101,8 +108,6 @@ func set_path(asrama_asal, kampus_tujuan, path):
 
 func berangkat():
 	path = path_berangkat
-	next_point = path[0]
-	first_point = true
 	state = State.BERANGKAT
 	anim.play("berangkat")
 
@@ -111,7 +116,7 @@ func pulang():
 	path = path_pulang
 	first_point = true
 	state = State.PULANG
-	anim.play("berangkat")
+	anim.play("pulang")
 	
 
 func send_signal_kampus():

@@ -50,6 +50,11 @@ func _ready():
 	add_child(new_asrama)
 	new_asrama.init(tilemap.place_asrama(new_asrama, rng.randi_range(0, 3)))
 	new_asrama.set_blue()
+	var new_jalan = jalan_res.instantiate()
+	add_child(new_jalan)
+	new_jalan.deleteable = false
+	tilemap.road_coord = new_asrama.posisi_gerbang
+	tilemap.place_road(new_jalan)
 	Lists.asrama_blue.append(new_asrama)
 	
 	tilemap.is_kampus_buildable(Vector2(400,200))
@@ -58,6 +63,11 @@ func _ready():
 	new_kampus.global_position = tilemap.map_to_local(tilemap.local_to_map(Vector2(400,200)))
 	new_kampus.init(tilemap.place_kampus(), Lists.asrama_blue.duplicate())
 	new_kampus.set_blue()
+	new_jalan = jalan_res.instantiate()
+	add_child(new_jalan)
+	new_jalan.deleteable = false
+	tilemap.road_coord = new_kampus.posisi_gerbang
+	tilemap.place_road(new_jalan)
 	new_kampus.send_request_siswa.connect(_on_request_siswa)
 	new_kampus.gameover.connect(shake)
 	Lists.kampus_blue.append(new_kampus)
@@ -113,6 +123,11 @@ func _process(delta):
 					if not Lists.kampus_red.is_empty():
 						for kampus in Lists.kampus_red:
 							kampus.add_asrama(new_asrama)
+			var new_jalan = jalan_res.instantiate()
+			add_child(new_jalan)
+			new_jalan.deleteable = false
+			tilemap.road_coord = new_asrama.posisi_gerbang
+			tilemap.place_road(new_jalan)
 			asrama_to_be_placed -= 1
 			
 					
@@ -153,6 +168,11 @@ func _process(delta):
 					new_kampus.init(tilemap.place_kampus(), Lists.asrama_red.duplicate())
 					new_kampus.set_red()
 					Lists.kampus_red.append(new_kampus)
+			var new_jalan = jalan_res.instantiate()
+			add_child(new_jalan)
+			new_jalan.deleteable = false
+			tilemap.road_coord = new_kampus.posisi_gerbang
+			tilemap.place_road(new_jalan)
 			new_kampus.send_request_siswa.connect(_on_request_siswa)
 			new_kampus.gameover.connect(shake)
 			kampus_to_be_placed -= 1
@@ -162,7 +182,7 @@ func _process(delta):
 func _on_request_siswa(asrama_asal, kampus_tujuan, warna, path):
 	var new_siswa = siswa_res.instantiate()
 	Lists.siswa.append(new_siswa)
-	new_siswa.position = tilemap.map_to_local(asrama_asal.posisi_gerbang)
+	new_siswa.position = tilemap.map_to_local(asrama_asal.spawn_point[asrama_asal.siswa_count])
 	add_child(new_siswa)
 	match warna:
 		BLUE:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://btb8f2vdwdyxg"]
+[gd_scene load_steps=13 format=3 uid="uid://btb8f2vdwdyxg"]
 
 [ext_resource type="Script" path="res://scripts/character.gd" id="1_8y32o"]
+[ext_resource type="Texture2D" uid="uid://jsmj624aql4m" path="res://assets/siswa/siswa-blue.png" id="2_753xx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f6l7n"]
 radius = 13.0
@@ -30,7 +31,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_35nw4"]
 resource_name = "berangkat"
-length = 0.5
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -38,7 +39,7 @@ tracks/0/path = NodePath("Sprite2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.5),
+"times": PackedFloat32Array(0, 0.5, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -278,23 +279,77 @@ tracks/4/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_eml23"]
+resource_name = "pulang"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("collision_preventor:monitorable")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("collision_detector:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("collision_detector:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ibrbo"]
 _data = {
 "RESET": SubResource("Animation_sxh1r"),
 "berangkat": SubResource("Animation_35nw4"),
 "destroy": SubResource("Animation_yhfk4"),
+"pulang": SubResource("Animation_eml23"),
 "sampai_asrama": SubResource("Animation_hgq4r"),
 "sampai_kampus": SubResource("Animation_enskb")
 }
 
 [node name="Siswa" type="Marker2D"]
-z_index = 2
+z_index = 1
 script = ExtResource("1_8y32o")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -20)
 rotation = -1.5708
+texture = ExtResource("2_753xx")
 
 [node name="front_detector" type="Area2D" parent="."]
 position = Vector2(33, -20)
@@ -311,7 +366,6 @@ position = Vector2(6, -20)
 rotation = -1.57079
 collision_mask = 0
 input_pickable = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision_preventor"]
 position = Vector2(-9.53674e-06, -4)
@@ -322,8 +376,6 @@ position = Vector2(0, -20)
 collision_layer = 2
 collision_mask = 2
 input_pickable = false
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision_detector"]
 shape = SubResource("CircleShape2D_nr6d7")

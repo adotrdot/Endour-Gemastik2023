@@ -33,8 +33,7 @@ enum { BLUE, GREEN, RED }
 var color = BLUE
 
 func _ready():
-	for pin in pins:
-		pin.visible = false
+	pass
 
 func _process(delta):
 	pass
@@ -52,6 +51,8 @@ func init(pos : Vector2, list_asrama : Array):
 	add_child(siswa_timer)
 	siswa_timer.timeout.connect(request_siswa)
 	siswa_timer.start(1.5)
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	
 
 func set_blue():
@@ -96,7 +97,8 @@ func add_request():
 	var new_request = req_res.instantiate()
 	add_child(new_request)
 	list_requests.append(new_request)
-	pins[list_requests.size()-1].visible = true
+	var tween = get_tree().create_tween()
+	tween.tween_property(pins[list_requests.size()-1], "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	
 
 func _on_request_timeout():
@@ -105,7 +107,8 @@ func _on_request_timeout():
 
 func pop_request():
 	siswa_count -= 1
-	pins[list_requests.size()-1].visible = false
+	var tween = get_tree().create_tween()
+	tween.tween_property(pins[list_requests.size()-1], "scale", Vector2(1,0), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	var request = list_requests.pop_front()
 	if request != null:
 		request.queue_free()

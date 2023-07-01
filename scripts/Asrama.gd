@@ -5,10 +5,16 @@ var green_variant = preload("res://assets/asrama/asrama-green.png")
 var red_variant = preload("res://assets/asrama/asrama-red.png")
 @onready var sprite = $Sprite2D
 
-func init(pos : Vector2):
+var spawn_point = PackedVector2Array()
+
+func init(pos : Array):
 	siswa_count = 3
-	posisi_gerbang = pos
-	set_blue()
+	posisi_gerbang = pos.pop_front()
+	posisi_gerbang_global = pos.pop_front()
+	for point in pos:
+		spawn_point.append(point)
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
 
 func set_blue():
 	sprite.set_texture(blue_variant)

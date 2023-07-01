@@ -12,7 +12,7 @@ var trauma_power = 2
 
 func _ready():
 	randomize()
-	global_position = Vector2(200,200)
+	global_position = Vector2(800,400)
 	camera.zoom = Vector2(1,1)
 	camera.make_current()
 

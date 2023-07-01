@@ -45,7 +45,7 @@ func _ready():
 	Lists.kampus_red.clear()
 	
 	# create first asrama & kampus
-	tilemap.is_asrama_buildable(Vector2(80,80))
+	tilemap.is_asrama_buildable(Vector2(100,200))
 	var new_asrama = asrama_res.instantiate()
 	add_child(new_asrama)
 	new_asrama.init(tilemap.place_asrama(new_asrama, rng.randi_range(0, 3)))
@@ -57,11 +57,10 @@ func _ready():
 	tilemap.place_road(new_jalan)
 	Lists.asrama_blue.append(new_asrama)
 	
-	tilemap.is_kampus_buildable(Vector2(400,200))
+	tilemap.is_kampus_buildable(Vector2(600,100))
 	var new_kampus = kampus_res.instantiate()
 	add_child(new_kampus)
-	new_kampus.global_position = tilemap.map_to_local(tilemap.local_to_map(Vector2(400,200)))
-	new_kampus.init(tilemap.place_kampus(), Lists.asrama_blue.duplicate())
+	new_kampus.init(tilemap.place_kampus(new_kampus), Lists.asrama_blue.duplicate())
 	new_kampus.set_blue()
 	new_jalan = jalan_res.instantiate()
 	add_child(new_jalan)
@@ -154,18 +153,17 @@ func _process(delta):
 		if tilemap.is_kampus_buildable(pos) and color != -1:
 			var new_kampus = kampus_res.instantiate()
 			add_child(new_kampus)
-			new_kampus.global_position = tilemap.map_to_local(tilemap.local_to_map(pos))
 			match color:
 				BLUE:
-					new_kampus.init(tilemap.place_kampus(), Lists.asrama_blue.duplicate())
+					new_kampus.init(tilemap.place_kampus(new_kampus), Lists.asrama_blue.duplicate())
 					new_kampus.set_blue()
 					Lists.kampus_blue.append(new_kampus)
 				GREEN:
-					new_kampus.init(tilemap.place_kampus(), Lists.asrama_green.duplicate())
+					new_kampus.init(tilemap.place_kampus(new_kampus), Lists.asrama_green.duplicate())
 					new_kampus.set_green()
 					Lists.kampus_green.append(new_kampus)
 				RED:
-					new_kampus.init(tilemap.place_kampus(), Lists.asrama_red.duplicate())
+					new_kampus.init(tilemap.place_kampus(new_kampus), Lists.asrama_red.duplicate())
 					new_kampus.set_red()
 					Lists.kampus_red.append(new_kampus)
 			var new_jalan = jalan_res.instantiate()

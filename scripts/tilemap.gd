@@ -76,9 +76,10 @@ func is_asrama_buildable(pos):
 
 
 # method untuk menempatkan kampus pada map
-func place_kampus():
+func place_kampus(new_kampus):
 	for i in range(kampus_coords.size()):
 		set_cell(1,kampus_coords[i],2,kampus_atlas_coords[i])
+	new_kampus.global_position = map_to_local(kampus_coords[0])
 	set_cells_terrain_connect(0, [kampus_coords[3]], 0, 0)
 	return kampus_coords[3] # return koordinat gerbang
 

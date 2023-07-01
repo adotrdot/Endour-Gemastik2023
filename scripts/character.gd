@@ -33,6 +33,8 @@ var blue_variant = preload("res://assets/siswa/siswa-blue.png")
 var green_variant = preload("res://assets/siswa/siswa-green.png")
 var red_variant = preload("res://assets/siswa/siswa-red.png")
 
+var first_point = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	state = State.IDLE
@@ -44,17 +46,30 @@ func _process(delta):
 		return
 	var arrived_to_next_point = move_to(next_point)
 	if arrived_to_next_point:
-		path.remove_at(0)
-		if path.is_empty():
-			if state == State.BERANGKAT:
-				# berhasil berangkat sampai kampus
-				anim.play("sampai_kampus")
-			else:
-				# berhasil pulang sampai asrama
-				anim.play("sampai_asrama")
-			state = State.IDLE
-			return
-		next_point = path[0]
+		if first_point:
+			if path.size() == 1:
+				if state == State.BERANGKAT:
+					# berhasil berangkat sampai kampus
+					anim.play("sampai_kampus")
+				else:
+					# berhasil pulang sampai asrama
+					anim.play("sampai_asrama")
+				state = State.IDLE
+				return
+			next_point = path[1]
+			first_point = false
+		else:
+			path.remove_at(0)
+			if path.size() == 1:
+				if state == State.BERANGKAT:
+					# berhasil berangkat sampai kampus
+					anim.play("sampai_kampus")
+				else:
+					# berhasil pulang sampai asrama
+					anim.play("sampai_asrama")
+				state = State.IDLE
+				return
+			next_point = path[1]
 	
 	
 func set_blue():
@@ -86,13 +101,15 @@ func set_path(asrama_asal, kampus_tujuan, path):
 
 func berangkat():
 	path = path_berangkat
-	next_point = path[1]
+	next_point = path[0]
+	first_point = true
 	state = State.BERANGKAT
 	anim.play("berangkat")
 
 
 func pulang():
 	path = path_pulang
+	first_point = true
 	state = State.PULANG
 	anim.play("berangkat")
 	

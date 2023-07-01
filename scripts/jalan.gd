@@ -3,15 +3,18 @@ extends Node2D
 
 @onready var sprite = $Sprite2D
 @onready var clickable = $clickable
+@onready var tilemap = get_node("../TileMap")
+var posisi_tile = Vector2i()
 var left = null
 var right = null
-var up = null
-var down = null
+var top = null
+var bottom = null
 var deleteable = true
 var delete_process = false
 
+
 func _ready():
-	sprite.set_texture(BaseJalan.res_junction_midmid)
+	sprite.set_texture(BaseJalan.res_single)
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_BOUNCE)
 
@@ -26,7 +29,46 @@ func _process(delta):
 			for point in siswa.path_pulang:
 				if point == position:
 					return
-		queue_free()
+		var tween = get_tree().create_tween()
+		tween.tween_property(sprite, "scale", Vector2(), 0.2).set_trans(Tween.TRANS_BOUNCE)
+		tween.tween_callback(self.queue_free)
+
+
+# cek koneksi jalan dan refresh sprite
+func refresh():
+	match tilemap.get_cell_atlas_coords(0, posisi_tile):
+		BaseJalan.coords.SINGLE:
+			sprite.set_texture(BaseJalan.res_single)
+		BaseJalan.coords.VERTICAL_TOP:
+			sprite.set_texture(BaseJalan.res_vertical_top)
+		BaseJalan.coords.VERTICAL_MID:
+			sprite.set_texture(BaseJalan.res_vertical_mid)
+		BaseJalan.coords.VERTICAL_BOT:
+			sprite.set_texture(BaseJalan.res_vertical_bot)
+		BaseJalan.coords.HORIZONTAL_LEFT:
+			sprite.set_texture(BaseJalan.res_horizontal_left)
+		BaseJalan.coords.HORIZONTAL_MID:
+			sprite.set_texture(BaseJalan.res_horizontal_mid)
+		BaseJalan.coords.HORIZONTAL_RIGHT:
+			sprite.set_texture(BaseJalan.res_horizontal_right)
+		BaseJalan.coords.JUNCTION_TOPLEFT:
+			sprite.set_texture(BaseJalan.res_junction_topleft)
+		BaseJalan.coords.JUNCTION_TOPMID:
+			sprite.set_texture(BaseJalan.res_junction_topmid)
+		BaseJalan.coords.JUNCTION_TOPRIGHT:
+			sprite.set_texture(BaseJalan.res_junction_topright)
+		BaseJalan.coords.JUNCTION_MIDLEFT:
+			sprite.set_texture(BaseJalan.res_junction_midleft)
+		BaseJalan.coords.JUNCTION_MIDMID:
+			sprite.set_texture(BaseJalan.res_junction_midmid)
+		BaseJalan.coords.JUNCTION_MIDRIGHT:
+			sprite.set_texture(BaseJalan.res_junction_midright)
+		BaseJalan.coords.JUNCTION_BOTLEFT:
+			sprite.set_texture(BaseJalan.res_junction_botleft)
+		BaseJalan.coords.JUNCTION_BOTMID:
+			sprite.set_texture(BaseJalan.res_junction_botmid)
+		BaseJalan.coords.JUNCTION_BOTRIGHT:
+			sprite.set_texture(BaseJalan.res_junction_botright)
 
 
 # deteksi klik kanan mouse untuk menghapus jalan
@@ -37,3 +79,43 @@ func _on_clickable_input_event(viewport, event, shape_idx):
 		if event.button_mask == MOUSE_BUTTON_MASK_RIGHT and deleteable:
 			sprite.modulate = Color(255,255,255,0.5)
 			delete_process = true
+
+
+func _on_leftjoint_area_entered(area):
+	left = true
+	refresh()
+
+
+func _on_leftjoint_area_exited(area):
+	left = false
+	refresh()
+
+
+func _on_rightjoint_area_entered(area):
+	right = true
+	refresh()
+
+
+func _on_rightjoint_area_exited(area):
+	right = false
+	refresh()
+
+
+func _on_topjoint_area_entered(area):
+	top = true
+	refresh()
+
+
+func _on_topjoint_area_exited(area):
+	top = false
+	refresh()
+
+
+func _on_bottomjoint_area_entered(area):
+	bottom = true
+	refresh()
+
+
+func _on_bottomjoint_area_exited(area):
+	bottom = false
+	refresh()

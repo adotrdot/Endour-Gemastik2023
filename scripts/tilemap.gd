@@ -21,6 +21,7 @@ func is_road_buildable(local_mousepos):
 func place_road(new_road):
 	set_cells_terrain_connect(0, [road_coord], 0, 0)
 	new_road.position = map_to_local(road_coord)
+	new_road.posisi_tile = road_coord
 
 func remove_road(local_mousepos):
 	var tilepos = local_to_map(local_mousepos)

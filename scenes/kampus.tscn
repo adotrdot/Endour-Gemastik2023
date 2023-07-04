@@ -49,3 +49,7 @@ position = Vector2(0, 60)
 scale = Vector2(1, 1e-05)
 texture = ExtResource("3_hbtp6")
 offset = Vector2(140, -30)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(80.5, 38)
+scale = Vector2(10.55, 6.5)

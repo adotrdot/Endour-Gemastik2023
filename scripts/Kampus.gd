@@ -1,6 +1,8 @@
 extends Bangunan
 
 
+@onready var visibility_notifier = $VisibleOnScreenNotifier2D
+@onready var cam = get_node("../../cam_container/Camera2D")
 @onready var tilemap = get_node("../TileMap")
 var path = PackedVector2Array()
 
@@ -18,6 +20,9 @@ var pin_red = preload("res://assets/pin/pin-red.png")
 @onready var pin4 = $pin4
 @onready var pin5 = $pin5
 @onready var pins = [pin1,pin2,pin3,pin4,pin5]
+var out_pin_pos = Vector2()
+var out_pin_res = preload("res://scenes/kampus_out_pin.tscn")
+var out_pin = null
 
 var asrama_terkait = Array()
 var list_requests = Array()
@@ -36,7 +41,71 @@ func _ready():
 	pass
 
 func _process(delta):
-	pass
+	if not visibility_notifier.is_on_screen():
+		if out_pin == null:
+			out_pin = out_pin_res.instantiate()
+			add_child(out_pin)
+			match color:
+				BLUE:
+					out_pin.sprite.set_texture(pin_blue)
+				GREEN:
+					out_pin.sprite.set_texture(pin_green)
+				RED:
+					out_pin.sprite.set_texture(pin_red)
+		var cam_center = cam.get_screen_center_position()
+		cam_center.y *= -1
+		var screen_size = cam.get_viewport_rect().size / cam.get_canvas_transform().get_scale()
+		var left_edge = screen_size.x / 2 * -1
+		var right_edge = screen_size.x / 2
+		var top_edge = screen_size.y / 2
+		var bottom_edge = screen_size.y / 2 * -1
+		var pos = Vector2(global_position.x - cam_center.x, global_position.y * -1 - cam_center.y)
+		if pos.x == 0 or pos.y == 0:
+			return
+		var m = pos.y / pos.x
+		out_pin.sprite.rotation_degrees = 0
+		if pos.y > 0: # berada di atas layar
+			out_pin_pos.y = top_edge
+			out_pin_pos.x = out_pin_pos.y / m
+			out_pin.sprite.offset = Vector2(0,25)
+			out_pin.sprite.flip_h = false
+			out_pin.sprite.flip_v = true
+			if m > 0 and out_pin_pos.x > right_edge:
+				out_pin.sprite.rotation_degrees = -90
+				out_pin.sprite.offset = Vector2(0,25)
+				out_pin.sprite.flip_v = false
+				out_pin_pos.x = right_edge
+				out_pin_pos.y = m * out_pin_pos.x
+			elif m < 0 and out_pin_pos.x < left_edge:
+				out_pin.sprite.rotation_degrees = 90
+				out_pin.sprite.offset = Vector2(0,-25)
+				out_pin.sprite.flip_v = false
+				out_pin_pos.x = left_edge
+				out_pin_pos.y = m * out_pin_pos.x
+		else: # berada di bawah layar
+			out_pin_pos.y = bottom_edge
+			out_pin_pos.x = out_pin_pos.y / m
+			out_pin.sprite.offset = Vector2(0,-25)
+			out_pin.sprite.flip_h = false
+			out_pin.sprite.flip_v = false
+			if m > 0 and out_pin_pos.x < left_edge:
+				out_pin.sprite.rotation_degrees = 90
+				out_pin.sprite.offset = Vector2(0,-25)
+				out_pin.sprite.flip_v = false
+				out_pin_pos.x = left_edge
+				out_pin_pos.y = m * out_pin_pos.x
+			elif m < 0 and out_pin_pos.x > right_edge:
+				out_pin.sprite.rotation_degrees = -90
+				out_pin.sprite.offset = Vector2(0,25)
+				out_pin.sprite.flip_v = false
+				out_pin_pos.x = right_edge
+				out_pin_pos.y = m * out_pin_pos.x
+		out_pin_pos += cam_center
+		out_pin_pos.y *= -1
+		out_pin.global_position = out_pin_pos
+	else:
+		if out_pin != null:
+			out_pin.queue_free()
 
 
 func init(pos : Vector2, list_asrama : Array):

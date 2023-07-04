@@ -201,7 +201,6 @@ sources/2 = SubResource("TileSetAtlasSource_tgdb0")
 
 [node name="TileMap" type="TileMap"]
 modulate = Color(1, 1, 1, 0)
-rotation = 0.00141728
 tile_set = SubResource("TileSet_w2bvw")
 format = 2
 layer_0/name = "jalan"

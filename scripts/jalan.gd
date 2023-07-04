@@ -32,6 +32,7 @@ func _process(delta):
 		var tween = get_tree().create_tween()
 		tween.tween_property(sprite, "scale", Vector2(), 0.2).set_trans(Tween.TRANS_BOUNCE)
 		tween.tween_callback(self.queue_free)
+		delete_process = false
 
 
 # cek koneksi jalan dan refresh sprite

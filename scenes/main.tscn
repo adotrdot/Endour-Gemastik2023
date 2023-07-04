@@ -11,7 +11,8 @@
 
 [node name="BG" type="Sprite2D" parent="."]
 z_index = -2
-position = Vector2(-1390, -795)
+position = Vector2(-1000, -500)
+scale = Vector2(0.893539, 0.851336)
 texture = ExtResource("1_vdhjf")
 centered = false
 

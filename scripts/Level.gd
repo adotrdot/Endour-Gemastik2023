@@ -2,8 +2,10 @@ extends Node2D
 
 var poin = 0
 var can_place = false
+var can_remove = false
 var mousepos = Vector2i()
 @onready var tilemap = $TileMap
+@onready var controls = get_node("../GameplayControl")
 
 
 # preload scenes
@@ -71,19 +73,17 @@ func _ready():
 	new_kampus.gameover.connect(_on_gameover)
 	Lists.kampus_blue.append(new_kampus)
 	
-	can_place = true
 	pass
 
 
 func _process(delta):
 	mousepos = get_local_mouse_position()
-	if can_place:
-		if Input.is_action_pressed("mb_left") and tilemap.is_road_buildable(mousepos):
-			var new_jalan = jalan_res.instantiate()
-			add_child(new_jalan)
-			tilemap.place_road(new_jalan)
-		elif Input.is_action_pressed("mb_right"):
-			tilemap.remove_road(mousepos)
+	if can_place and controls.is_any_button_hovered() == false and Input.is_action_pressed("mb_left") and tilemap.is_road_buildable(mousepos):
+		var new_jalan = jalan_res.instantiate()
+		add_child(new_jalan)
+		tilemap.place_road(new_jalan)
+	elif can_remove and controls.is_any_button_hovered() == false and Input.is_action_pressed("mb_left"):
+		tilemap.remove_road(mousepos)
 
 
 	# penempatan random asrama & kampus
@@ -220,3 +220,15 @@ func add_poin():
 			asrama_to_be_placed += 1
 		if poin % 15 == 0:
 			kampus_to_be_placed += 1
+
+
+# UI
+func _on_gameplay_control_place_road():
+	can_place = true
+	can_remove = false
+	print("tes")
+
+func _on_gameplay_control_remove_road():
+	can_place = false
+	can_remove = true
+	print("tes2")

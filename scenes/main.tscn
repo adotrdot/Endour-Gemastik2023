@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://xxvh43pwrsxo"]
+[gd_scene load_steps=8 format=3 uid="uid://xxvh43pwrsxo"]
 
 [ext_resource type="Texture2D" uid="uid://bw3fxti4owa03" path="res://assets/map/overlay.png" id="1_5f7pl"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1_k6mty"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://tdib8wqxja64" path="res://scenes/tilemap.tscn" id="2_marce"]
 [ext_resource type="Script" path="res://scripts/tilemap.gd" id="3_uwblg"]
 [ext_resource type="Script" path="res://scripts/cam_container.gd" id="3_vqskw"]
+[ext_resource type="PackedScene" uid="uid://br3cf3r7aqiv2" path="res://scenes/gameplay_control.tscn" id="7_aq3lh"]
 
 [node name="main" type="Node2D"]
 
@@ -35,4 +36,8 @@ limit_top = -500
 limit_right = 10000
 limit_bottom = 10000
 
+[node name="GameplayControl" parent="." instance=ExtResource("7_aq3lh")]
+
 [connection signal="camera_shake" from="Level" to="cam_container" method="_on_level_camera_shake"]
+[connection signal="place_road" from="GameplayControl" to="Level" method="_on_gameplay_control_place_road"]
+[connection signal="remove_road" from="GameplayControl" to="Level" method="_on_gameplay_control_remove_road"]

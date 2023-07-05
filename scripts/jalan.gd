@@ -4,6 +4,7 @@ extends Node2D
 @onready var sprite = $Sprite2D
 @onready var clickable = $clickable
 @onready var tilemap = get_node("../TileMap")
+@onready var level = get_node("../../Level")
 var posisi_tile = Vector2i()
 var left = null
 var right = null
@@ -75,9 +76,9 @@ func refresh():
 # deteksi klik kanan mouse untuk menghapus jalan
 func _on_clickable_input_event(viewport, event, shape_idx):
 	if event is InputEventMouse:
-		if event.button_mask == MOUSE_BUTTON_MASK_LEFT and delete_process:
+		if level.can_place and event.button_mask == MOUSE_BUTTON_MASK_LEFT and delete_process:
 			queue_free()
-		if event.button_mask == MOUSE_BUTTON_MASK_RIGHT and deleteable:
+		if level.can_remove and event.button_mask == MOUSE_BUTTON_MASK_LEFT and deleteable:
 			sprite.modulate = Color(255,255,255,0.5)
 			delete_process = true
 

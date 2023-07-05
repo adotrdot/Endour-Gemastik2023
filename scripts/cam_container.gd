@@ -18,7 +18,7 @@ func _ready():
 
 
 func _process(delta):
-	is_panning = Input.is_action_pressed("mb_mid")
+	is_panning = Input.is_action_pressed("mb_right")
 	if trauma:
 		trauma = max(trauma - decay * delta, 0)
 		shake()

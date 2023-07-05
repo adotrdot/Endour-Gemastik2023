@@ -1,24 +1,23 @@
 [gd_scene load_steps=7 format=3 uid="uid://xxvh43pwrsxo"]
 
-[ext_resource type="Texture2D" uid="uid://b2dv36wmrknf6" path="res://assets/map-full.png" id="1_4uv8o"]
+[ext_resource type="Texture2D" uid="uid://bw3fxti4owa03" path="res://assets/map/overlay.png" id="1_5f7pl"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1_k6mty"]
-[ext_resource type="Texture2D" uid="uid://bjbtfijoo8jvd" path="res://assets/map-bg.png" id="1_vdhjf"]
+[ext_resource type="Texture2D" uid="uid://lgous6wutk1s" path="res://assets/map/map.png" id="2_m3pwd"]
 [ext_resource type="PackedScene" uid="uid://tdib8wqxja64" path="res://scenes/tilemap.tscn" id="2_marce"]
 [ext_resource type="Script" path="res://scripts/tilemap.gd" id="3_uwblg"]
 [ext_resource type="Script" path="res://scripts/cam_container.gd" id="3_vqskw"]
 
 [node name="main" type="Node2D"]
 
-[node name="BG" type="Sprite2D" parent="."]
-z_index = -2
+[node name="OVERLAY" type="Sprite2D" parent="."]
+z_index = -5
 position = Vector2(-1000, -500)
-scale = Vector2(0.893539, 0.851336)
-texture = ExtResource("1_vdhjf")
+texture = ExtResource("1_5f7pl")
 centered = false
 
 [node name="MAP" type="Sprite2D" parent="."]
-z_index = -1
-texture = ExtResource("1_4uv8o")
+z_index = -10
+texture = ExtResource("2_m3pwd")
 centered = false
 
 [node name="Level" type="Node2D" parent="."]

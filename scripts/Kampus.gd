@@ -6,6 +6,8 @@ extends Bangunan
 @onready var tilemap = get_node("../TileMap")
 var path = PackedVector2Array()
 
+var warning_circle_res = preload("res://scenes/kampus_warning_circle.tscn")
+
 var blue_variant = preload("res://assets/kampus/kampus-blue.png")
 var green_variant = preload("res://assets/kampus/kampus-green.png")
 var red_variant = preload("res://assets/kampus/kampus-red.png")
@@ -30,6 +32,9 @@ var list_requests = Array()
 @onready var req_limit_res = preload("res://scenes/student_request_limit.tscn")
 var req_limit = 5
 var req_timer = Timer.new()
+var limit_timer = Timer.new()
+var limit_subtimer = Timer.new()
+var limit_subtimer_time = 10
 var siswa_timer = Timer.new()
 signal gameover
 signal send_request_siswa(asrama_asal, kampus_tujuan, warna, path)
@@ -39,8 +44,37 @@ var color = BLUE
 
 func _ready():
 	pass
+	
+func init(pos : Vector2, list_asrama : Array):
+	siswa_count = 0
+	posisi_gerbang = pos
+	if not list_asrama.is_empty():
+		asrama_terkait = list_asrama
+		asrama_terkait.sort_custom(sort_asrama_terdekat)
+	add_child(req_timer)
+	req_timer.timeout.connect(add_request)
+	req_timer.start(10)
+	add_child(siswa_timer)
+	siswa_timer.timeout.connect(request_siswa)
+	siswa_timer.start(1.5)
+	add_child(limit_timer)
+	limit_timer.timeout.connect(_on_request_fail)
+	limit_timer.one_shot = true
+	add_child(limit_subtimer)
+	limit_subtimer.timeout.connect(spawn_warning_circle)
+	limit_subtimer.one_shot = true
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
+	
 
 func _process(delta):
+	# warning circle ketika mencapat batas request
+	if list_requests.size() == req_limit and limit_timer.is_stopped():
+		limit_timer.start(60)
+		limit_subtimer.start(limit_subtimer_time)
+		
+	
+	# indikator keluar view kamera
 	if not visibility_notifier.is_on_screen():
 		if out_pin == null:
 			out_pin = out_pin_res.instantiate()
@@ -60,8 +94,34 @@ func _process(delta):
 		var top_edge = screen_size.y / 2
 		var bottom_edge = screen_size.y / 2 * -1
 		var pos = Vector2(global_position.x - cam_center.x, global_position.y * -1 - cam_center.y)
-		if pos.x == 0 or pos.y == 0:
-			return
+		
+		# apabila garis horizontal/vertikal
+		if pos.x == 0 and pos.y > 0: # berada di atas layar (vertical)
+			out_pin_pos.y = top_edge
+			out_pin_pos.x = 0
+			out_pin.sprite.offset = Vector2(0,25)
+			out_pin.sprite.flip_h = false
+			out_pin.sprite.flip_v = true
+		elif pos.x == 0 and pos.y < 0:
+			out_pin_pos.y = bottom_edge
+			out_pin_pos.x = 0
+			out_pin.sprite.offset = Vector2(0,-25)
+			out_pin.sprite.flip_h = false
+			out_pin.sprite.flip_v = false
+		elif pos.y == 0 and pos.x > 0:
+			out_pin.sprite.rotation_degrees = -90
+			out_pin.sprite.offset = Vector2(0,-25)
+			out_pin.sprite.flip_v = false
+			out_pin_pos.x = right_edge
+			out_pin_pos.y = 0
+		elif pos.y == 0 and pos.x < 0:
+			out_pin.sprite.rotation_degrees = 90
+			out_pin.sprite.offset = Vector2(0,-25)
+			out_pin.sprite.flip_v = false
+			out_pin_pos.x = left_edge
+			out_pin_pos.y = 0
+		
+		# jika garis miring
 		var m = pos.y / pos.x
 		out_pin.sprite.rotation_degrees = 0
 		if pos.y > 0: # berada di atas layar
@@ -72,7 +132,7 @@ func _process(delta):
 			out_pin.sprite.flip_v = true
 			if m > 0 and out_pin_pos.x > right_edge:
 				out_pin.sprite.rotation_degrees = -90
-				out_pin.sprite.offset = Vector2(0,25)
+				out_pin.sprite.offset = Vector2(0,-25)
 				out_pin.sprite.flip_v = false
 				out_pin_pos.x = right_edge
 				out_pin_pos.y = m * out_pin_pos.x
@@ -90,13 +150,11 @@ func _process(delta):
 			out_pin.sprite.flip_v = false
 			if m > 0 and out_pin_pos.x < left_edge:
 				out_pin.sprite.rotation_degrees = 90
-				out_pin.sprite.offset = Vector2(0,-25)
 				out_pin.sprite.flip_v = false
 				out_pin_pos.x = left_edge
 				out_pin_pos.y = m * out_pin_pos.x
 			elif m < 0 and out_pin_pos.x > right_edge:
 				out_pin.sprite.rotation_degrees = -90
-				out_pin.sprite.offset = Vector2(0,25)
 				out_pin.sprite.flip_v = false
 				out_pin_pos.x = right_edge
 				out_pin_pos.y = m * out_pin_pos.x
@@ -106,22 +164,6 @@ func _process(delta):
 	else:
 		if out_pin != null:
 			out_pin.queue_free()
-
-
-func init(pos : Vector2, list_asrama : Array):
-	siswa_count = 0
-	posisi_gerbang = pos
-	if not list_asrama.is_empty():
-		asrama_terkait = list_asrama
-		asrama_terkait.sort_custom(sort_asrama_terdekat)
-	add_child(req_timer)
-	req_timer.timeout.connect(add_request)
-	req_timer.start(10)
-	add_child(siswa_timer)
-	siswa_timer.timeout.connect(request_siswa)
-	siswa_timer.start(1.5)
-	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	
 
 func set_blue():
@@ -170,11 +212,20 @@ func add_request():
 	tween.tween_property(pins[list_requests.size()-1], "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	
 
-func _on_request_timeout():
+func spawn_warning_circle():
+	add_child(warning_circle_res.instantiate())
+	limit_subtimer_time *= 0.8
+	limit_subtimer_time = 0.5 if limit_subtimer_time < 0.5 else limit_subtimer_time
+	limit_subtimer.start(limit_subtimer_time)
+
+func _on_request_fail():
 	gameover.emit()
 
 
 func pop_request():
+	limit_timer.stop()
+	limit_subtimer.stop()
+	limit_subtimer_time = 10
 	siswa_count -= 1
 	var tween = get_tree().create_tween()
 	tween.tween_property(pins[list_requests.size()-1], "scale", Vector2(1,0), 0.5).set_trans(Tween.TRANS_BOUNCE)

@@ -14,7 +14,7 @@ enum FACING { UP, LEFT, RIGHT, DOWN }
 
 func is_road_buildable(local_mousepos):
 	road_coord = local_to_map(local_mousepos)
-	if road_coord.x < 0 or road_coord.x > 50 or road_coord.y < 0 or road_coord.y > 28 or get_cell_source_id(0,road_coord) == 0 or get_cell_source_id(1,road_coord) in [1,2]:
+	if road_coord.x < 2 or road_coord.x > 49 or road_coord.y < 2 or road_coord.y > 26 or get_cell_source_id(0,road_coord) == 0 or get_cell_source_id(1,road_coord) in [1,2]:
 		return false
 	return true
 

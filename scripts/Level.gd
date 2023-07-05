@@ -25,7 +25,7 @@ var random_place_asrama = false
 var random_place_kampus = false
 var asrama_to_be_placed = 0
 var kampus_to_be_placed = 0
-var min_rect = Vector2(80,80)
+var min_rect = Vector2(240,240)
 var max_rect = Vector2(1000,1000)
 
 var rng = RandomNumberGenerator.new()
@@ -45,7 +45,7 @@ func _ready():
 	Lists.kampus_red.clear()
 	
 	# create first asrama & kampus
-	tilemap.is_asrama_buildable(Vector2(100,200))
+	tilemap.is_asrama_buildable(Vector2(500,500))
 	var new_asrama = asrama_res.instantiate()
 	add_child(new_asrama)
 	new_asrama.init(tilemap.place_asrama(new_asrama, rng.randi_range(0, 3)))
@@ -57,7 +57,7 @@ func _ready():
 	tilemap.place_road(new_jalan)
 	Lists.asrama_blue.append(new_asrama)
 	
-	tilemap.is_kampus_buildable(Vector2(600,100))
+	tilemap.is_kampus_buildable(Vector2(700,300))
 	var new_kampus = kampus_res.instantiate()
 	add_child(new_kampus)
 	new_kampus.init(tilemap.place_kampus(new_kampus), Lists.asrama_blue.duplicate())
@@ -68,7 +68,7 @@ func _ready():
 	tilemap.road_coord = new_kampus.posisi_gerbang
 	tilemap.place_road(new_jalan)
 	new_kampus.send_request_siswa.connect(_on_request_siswa)
-	new_kampus.gameover.connect(shake)
+	new_kampus.gameover.connect(_on_gameover)
 	Lists.kampus_blue.append(new_kampus)
 	
 	can_place = true
@@ -172,7 +172,7 @@ func _process(delta):
 			tilemap.road_coord = new_kampus.posisi_gerbang
 			tilemap.place_road(new_jalan)
 			new_kampus.send_request_siswa.connect(_on_request_siswa)
-			new_kampus.gameover.connect(shake)
+			new_kampus.gameover.connect(_on_gameover)
 			kampus_to_be_placed -= 1
 
 
@@ -199,11 +199,17 @@ func _on_request_siswa(asrama_asal, kampus_tujuan, warna, path):
 func shake():
 	camera_shake.emit()
 	
+	
+# Game over
+func _on_gameover():
+	get_tree().quit()
 
+
+# Sistem poin
 func add_poin():
 	poin += 1
-	max_rect.x = max_rect.x + 20 if max_rect.x < 3850 else max_rect.x
-	max_rect.y = max_rect.y + 20 if max_rect.y < 2150 else max_rect.y
+	max_rect.x = max_rect.x + 20 if max_rect.x < 3950 else max_rect.x
+	max_rect.y = max_rect.y + 20 if max_rect.y < 2135 else max_rect.y
 	if poin < 20:
 		if poin % 3 == 0:
 			asrama_to_be_placed += 1

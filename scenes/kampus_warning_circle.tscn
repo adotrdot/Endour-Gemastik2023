@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfmu0yw5yhpbs"]
+
+[ext_resource type="Script" path="res://scenes/kampus_warning_circle.gd" id="1_54ogr"]
+[ext_resource type="Texture2D" uid="uid://c1i6tfpnnxw33" path="res://assets/kampus/warning-circle.png" id="2_yxhlm"]
+
+[node name="kampus_warning_circle" type="Node2D"]
+position = Vector2(80, 40)
+script = ExtResource("1_54ogr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_yxhlm")

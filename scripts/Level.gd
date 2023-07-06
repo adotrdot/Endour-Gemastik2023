@@ -189,7 +189,7 @@ func _on_request_siswa(asrama_asal, kampus_tujuan, warna, path):
 			new_siswa.set_green()
 		RED:
 			new_siswa.set_red()
-	new_siswa.sampai_asrama.connect(add_poin)
+	new_siswa.sampai_kampus.connect(add_poin)
 	new_siswa.kecelakaan.connect(shake)
 	new_siswa.set_path(asrama_asal, kampus_tujuan, path)
 	new_siswa.berangkat()
@@ -208,6 +208,7 @@ func _on_gameover():
 # Sistem poin
 func add_poin():
 	poin += 1
+	controls.set_score(poin)
 	max_rect.x = max_rect.x + 20 if max_rect.x < 3950 else max_rect.x
 	max_rect.y = max_rect.y + 20 if max_rect.y < 2135 else max_rect.y
 	if poin < 20:

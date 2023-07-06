@@ -9,11 +9,14 @@ var btn_place_road_hovered = false
 var btn_remove_road_pressed = false
 var btn_remove_road_hovered = false
 
+@onready var score = $"score-label"
+
 signal place_road
 signal remove_road
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	score.text = "0"
 	btn_place_road_anim.play("idle")
 	btn_remove_road_anim.play("idle")
 
@@ -44,7 +47,7 @@ func _on_btnplaceroad_toggled(button_pressed):
 		place_road.emit()
 		btn_place_road_pressed = true
 	else:
-		btn_place_road_anim.play("unhover")
+		btn_place_road_anim.play("unselect")
 		btn_place_road_pressed = false
 
 
@@ -70,5 +73,9 @@ func _on_btnremoveroad_toggled(button_pressed):
 		remove_road.emit()
 		btn_remove_road_pressed = true
 	else:
-		btn_remove_road_anim.play("unhover")
+		btn_remove_road_anim.play("unselect")
 		btn_remove_road_pressed = false
+
+
+func set_score(n):
+	score.text = str(n)

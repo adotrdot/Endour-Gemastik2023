@@ -33,6 +33,7 @@ var max_rect = Vector2(1000,1000)
 var rng = RandomNumberGenerator.new()
 
 signal camera_shake
+signal gameover
 
 func _ready():
 	rng.randomize()
@@ -202,7 +203,7 @@ func shake():
 	
 # Game over
 func _on_gameover():
-	get_tree().quit()
+	gameover.emit()
 
 
 # Sistem poin
@@ -227,9 +228,7 @@ func add_poin():
 func _on_gameplay_control_place_road():
 	can_place = true
 	can_remove = false
-	print("tes")
 
 func _on_gameplay_control_remove_road():
 	can_place = false
 	can_remove = true
-	print("tes2")

@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://2qpu63a5npg1"]
+
+[ext_resource type="Script" path="res://scripts/gameover_screen.gd" id="1_1eph3"]
+[ext_resource type="Texture2D" uid="uid://cx65c2pq5knqm" path="res://assets/ui/fade.png" id="1_tlypa"]
+[ext_resource type="Texture2D" uid="uid://cye8vyh58geu4" path="res://assets/ui/gameover-text.png" id="2_knxmk"]
+[ext_resource type="Texture2D" uid="uid://binb7xq8hxs54" path="res://assets/ui/gameover-subtext.png" id="3_dcvbe"]
+
+[sub_resource type="Animation" id="Animation_4rm83"]
+resource_name = "idle"
+length = 2.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("btn-text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.5, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bjfmp"]
+_data = {
+"idle": SubResource("Animation_4rm83")
+}
+
+[node name="gameover_screen" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_1eph3")
+
+[node name="FadeBG" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_tlypa")
+
+[node name="gameover-text" type="Sprite2D" parent="."]
+position = Vector2(960, 450)
+texture = ExtResource("2_knxmk")
+
+[node name="btn" type="Node2D" parent="."]
+
+[node name="btn-text" type="Sprite2D" parent="btn"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(960, 580)
+texture = ExtResource("3_dcvbe")
+
+[node name="btn-anim" type="AnimationPlayer" parent="btn"]
+libraries = {
+"": SubResource("AnimationLibrary_bjfmp")
+}

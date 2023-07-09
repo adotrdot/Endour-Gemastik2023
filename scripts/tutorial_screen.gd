@@ -1,6 +1,7 @@
 extends Control
 
 
+@onready var char = $char
 @onready var dialogbox = $"dialog-box"
 @onready var dialogtext = $"dialog-text"
 @onready var dialognextbtn = $"dialog-nextbtn/btn-text"
@@ -78,6 +79,7 @@ func _process(delta):
 	if dialog_done and Input.is_action_just_pressed("mb_left"):
 		if dialog_index == texts.size():
 			clear()
+			char.visible = false
 			dialogbox.visible = false
 			await get_tree().create_timer(1.0).timeout
 			tutorial_done.emit()

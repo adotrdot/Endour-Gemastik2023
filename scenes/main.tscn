@@ -39,7 +39,6 @@ limit_right = 10000
 limit_bottom = 10000
 
 [node name="GameplayControl" parent="." instance=ExtResource("7_aq3lh")]
-visible = false
 
 [connection signal="camera_shake" from="Level" to="cam_container" method="_on_level_camera_shake"]
 [connection signal="gameover" from="Level" to="." method="_on_level_gameover"]

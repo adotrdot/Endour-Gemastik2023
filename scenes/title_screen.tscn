@@ -305,7 +305,7 @@ libraries = {
 [node name="btn" type="Node2D" parent="."]
 
 [node name="btn-text" type="Sprite2D" parent="btn"]
-modulate = Color(1, 1, 1, 0.433387)
+modulate = Color(1, 1, 1, 0)
 position = Vector2(960, 900)
 texture = ExtResource("6_fy7sd")
 

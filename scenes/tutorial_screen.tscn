@@ -1,0 +1,138 @@
+[gd_scene load_steps=9 format=3 uid="uid://c0yhm8iwgidl6"]
+
+[ext_resource type="Script" path="res://scripts/tutorial_screen.gd" id="1_lav1t"]
+[ext_resource type="Texture2D" uid="uid://cj8dib602qovb" path="res://assets/ui/tutorial-bg.png" id="2_13va4"]
+[ext_resource type="Texture2D" uid="uid://cx65c2pq5knqm" path="res://assets/ui/fade.png" id="3_e8eg2"]
+[ext_resource type="Texture2D" uid="uid://b5lus0jp83a4y" path="res://assets/ui/tutorial-subtext.png" id="4_2vw4i"]
+
+[sub_resource type="Animation" id="Animation_4rm83"]
+resource_name = "idle"
+length = 2.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("btn-text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.5, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bjfmp"]
+_data = {
+"idle": SubResource("Animation_4rm83")
+}
+
+[sub_resource type="Animation" id="Animation_a0gfv"]
+resource_name = "fadein"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("black-overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("dialog-box:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("dialog-nextbtn/btn-text:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpcsi"]
+_data = {
+"fadein": SubResource("Animation_a0gfv")
+}
+
+[node name="tutorial_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lav1t")
+
+[node name="BG" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_13va4")
+
+[node name="dialog-box" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+position = Vector2(960, 808)
+scale = Vector2(0.648438, 0.298148)
+texture = ExtResource("3_e8eg2")
+
+[node name="dialog-text" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 374.0
+offset_top = 681.0
+offset_right = 1545.0
+offset_bottom = 935.0
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+
+[node name="dialog-timer" type="Timer" parent="."]
+wait_time = 0.02
+
+[node name="dialog-nextbtn" type="Node2D" parent="."]
+
+[node name="btn-text" type="Sprite2D" parent="dialog-nextbtn"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(960, 1013)
+texture = ExtResource("4_2vw4i")
+
+[node name="btn-anim" type="AnimationPlayer" parent="dialog-nextbtn"]
+libraries = {
+"": SubResource("AnimationLibrary_bjfmp")
+}
+
+[node name="tutorial-pic" type="Sprite2D" parent="."]
+position = Vector2(960, 320)
+
+[node name="black-overlay" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1943.0
+offset_bottom = 1101.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpcsi")
+}
+
+[connection signal="timeout" from="dialog-timer" to="." method="_on_dialogtimer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

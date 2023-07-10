@@ -10,6 +10,9 @@ extends Control
 @onready var judul_anim = $"judul/judul-anim"
 @onready var btn_text = $"btn/btn-text"
 @onready var btn_anim = $"btn/btn-anim"
+@onready var audio = $"audio-player"
+var bgm = preload("res://assets/audio/bgm-title.ogg")
+var sfx_click = preload("res://assets/audio/sfx-start_game.wav")
 
 var clickable = false
 
@@ -28,6 +31,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if clickable and Input.is_action_just_pressed("mb_left"):
+		audio.stop()
+		audio.set_stream(sfx_click)
+		audio.play(0)
 		anim.play("fadeout")
 		clickable = false
 
@@ -35,6 +41,8 @@ func _process(delta):
 func _on_animation_player_animation_finished(anim_name):
 	match anim_name:
 		"fadein":
+			audio.set_stream(bgm)
+			audio.play(0)
 			siswa1_anim.play("fadein")
 			siswa2_anim.play("fadein")
 			judul_anim.play("fadein")

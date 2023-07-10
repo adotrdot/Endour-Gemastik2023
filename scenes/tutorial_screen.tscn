@@ -114,6 +114,7 @@ offset_right = 1545.0
 offset_bottom = 935.0
 theme_override_font_sizes/normal_font_size = 30
 theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
 bbcode_enabled = true
 
 [node name="char" type="Sprite2D" parent="."]
@@ -140,8 +141,6 @@ libraries = {
 position = Vector2(960, 320)
 
 [node name="black-overlay" type="ColorRect" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 1943.0
 offset_bottom = 1101.0

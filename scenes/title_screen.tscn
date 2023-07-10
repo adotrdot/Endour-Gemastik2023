@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://uck06do5snq6"]
+[gd_scene load_steps=22 format=3 uid="uid://uck06do5snq6"]
 
 [ext_resource type="Texture2D" uid="uid://ct7b2lijh86bb" path="res://assets/ui/title-bg.png" id="1_gyk1r"]
 [ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_x6vnx"]
 [ext_resource type="Texture2D" uid="uid://dbhqlsna1qk8m" path="res://assets/ui/title-siswa1.png" id="2_71mjh"]
+[ext_resource type="AudioStream" uid="uid://dt7xvv0c2x311" path="res://assets/audio/bgm-title.ogg" id="3_0h7qf"]
 [ext_resource type="Texture2D" uid="uid://bn8pp7v38vvto" path="res://assets/ui/title-siswa2.png" id="4_nc0sq"]
 [ext_resource type="Texture2D" uid="uid://dlqr30lq02i3e" path="res://assets/ui/title-text.png" id="5_vb71e"]
 [ext_resource type="Texture2D" uid="uid://c3athyklcsbt2" path="res://assets/ui/title-subtext.png" id="6_fy7sd"]
@@ -268,6 +269,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_gyk1r")
 
+[node name="audio-player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_0h7qf")
+bus = &"BGM"
+
 [node name="siswa1" type="Node2D" parent="."]
 
 [node name="siswa-sprite" type="Sprite2D" parent="siswa1"]
@@ -325,6 +330,8 @@ color = Color(0, 0, 0, 1)
 libraries = {
 "": SubResource("AnimationLibrary_6c5mg")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [connection signal="animation_finished" from="siswa1/siswa-anim" to="." method="_on_siswaanim_animation_finished"]
 [connection signal="animation_finished" from="siswa2/siswa2-anim" to="." method="_on_siswa_2_anim_animation_finished"]

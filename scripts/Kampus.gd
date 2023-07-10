@@ -1,6 +1,8 @@
 extends Bangunan
 
 
+@onready var audio = $"audio-player"
+
 @onready var visibility_notifier = $VisibleOnScreenNotifier2D
 @onready var cam = get_node("../../cam_container/Camera2D")
 @onready var tilemap = get_node("../TileMap")
@@ -63,6 +65,7 @@ func init(pos : Vector2, list_asrama : Array):
 	add_child(limit_subtimer)
 	limit_subtimer.timeout.connect(spawn_warning_circle)
 	limit_subtimer.one_shot = true
+	audio.play(0)
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	
@@ -70,7 +73,7 @@ func init(pos : Vector2, list_asrama : Array):
 func _process(delta):
 	# warning circle ketika mencapat batas request
 	if list_requests.size() == req_limit and limit_timer.is_stopped():
-		limit_timer.start(60)
+		limit_timer.start(70)
 		limit_subtimer.start(limit_subtimer_time)
 		
 	

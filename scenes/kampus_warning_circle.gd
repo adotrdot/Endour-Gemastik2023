@@ -6,6 +6,7 @@ extends Node2D
 func _ready():
 	var target_modulate = sprite.get_modulate()
 	target_modulate.a = 0
+	$AudioStreamPlayer.play(0)
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "scale", Vector2(1,1), 1)
 	tween.parallel().tween_property(sprite, "modulate", target_modulate, 0.8)

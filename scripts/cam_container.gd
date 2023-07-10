@@ -58,8 +58,8 @@ func _unhandled_input(event):
 			global_position.y = 580 if global_position.y < 580 else global_position.y
 		elif camera.zoom.y > 0.3:
 			global_position.y = 850 if global_position.y < 850 else global_position.y
-		if global_position.y > 1400:
-			global_position.y = 1400
+		if global_position.y > 1500:
+			global_position.y = 1500
 
 
 func add_trauma(amount):

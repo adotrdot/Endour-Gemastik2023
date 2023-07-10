@@ -19,10 +19,11 @@ var texts = [
 	"Nah, kami mengundangmu ke sini sebagai arsitektur jalan kota.",
 	"Tugasmu adalah membangun jalan untuk menghubungkan asrama siswa dan kampus mereka dengan jalur yang efisien.",
 	"Sewaktu-waktu, kami akan mengirim asrama dan kampus baru dari bumi ke atas sini.",
-	"Untuk melakukan konstruksi jalan, akan ada dua tombol aksi di bagian bawah layar.",
+	"Ingat ini baik-baik, satu asrama hanya dapat menampung [color=yellow]tiga siswa[/color] saja!",
+	"Selanjutnya, untuk melakukan konstruksi jalan, akan ada dua tombol aksi di bagian bawah layar.",
 	"[color=green]Tombol sebelah kiri[/color] berfungsi untuk masuk ke mode penempatan jalan. Setelah menekan tombol itu, kamu dapat [color=green]klik kiri[/color] di area kosong untuk menempatkan sebuah jalan.",
 	"[color=green]Tombol sebelah kanan[/color] berfungsi untuk masuk ke mode menghapus jalan. Klik tombol ini, kemudian [color=green]klik kiri[/color] pada jalan yang sudah kamu tempatkan untuk menghapusnya.",
-	"Gunakan [color=green]klik kanan[/color] dan [color=green]mouse wheel[/color] untuk mengatur kamera.",
+	"Gunakan [color=green]klik kanan[/color] untuk mengatur posisi kamera dan [color=green]mouse wheel[/color] untuk mengatur [i]zoom[/i] kamera.",
 	"Yang terakhir, apabila ada siswa yang kecelakaan, ia akan memerlukan waktu 5 detik sebelum dapat kembali ke asrama.",
 	"Eksperimen ini akan berakhir apabila kamu gagal memenuhi permintaan kehadiran siswa suatu kampus dalam batasan waktu tertentu.",
 	"Baiklah. Semoga beruntung, ya!"

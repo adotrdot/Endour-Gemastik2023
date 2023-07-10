@@ -211,7 +211,7 @@ func add_poin():
 	poin += 1
 	controls.set_score(poin)
 	max_rect.x = max_rect.x + 20 if max_rect.x < 3950 else max_rect.x
-	max_rect.y = max_rect.y + 20 if max_rect.y < 2135 else max_rect.y
+	max_rect.y = max_rect.y + 20 if max_rect.y < 2050 else max_rect.y
 	if poin < 20:
 		if poin % 3 == 0:
 			asrama_to_be_placed += 1
@@ -221,6 +221,11 @@ func add_poin():
 		if poin % 7 == 0:
 			asrama_to_be_placed += 1
 		if poin % 15 == 0:
+			kampus_to_be_placed += 1
+	else:
+		if poin % 15 == 0:
+			asrama_to_be_placed += 1
+		if poin % 30 == 0:
 			kampus_to_be_placed += 1
 
 

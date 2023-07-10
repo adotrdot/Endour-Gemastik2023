@@ -1,16 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://xxvh43pwrsxo"]
+[gd_scene load_steps=10 format=3 uid="uid://xxvh43pwrsxo"]
 
 [ext_resource type="Texture2D" uid="uid://bw3fxti4owa03" path="res://assets/map/overlay.png" id="1_5f7pl"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1_k6mty"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_m7skv"]
 [ext_resource type="Texture2D" uid="uid://lgous6wutk1s" path="res://assets/map/map.png" id="2_m3pwd"]
 [ext_resource type="PackedScene" uid="uid://tdib8wqxja64" path="res://scenes/tilemap.tscn" id="2_marce"]
+[ext_resource type="AudioStream" uid="uid://xk18tl7sn67d" path="res://assets/audio/bgm-gameplay.ogg" id="2_nfj7m"]
 [ext_resource type="Script" path="res://scripts/tilemap.gd" id="3_uwblg"]
 [ext_resource type="Script" path="res://scripts/cam_container.gd" id="3_vqskw"]
 [ext_resource type="PackedScene" uid="uid://br3cf3r7aqiv2" path="res://scenes/gameplay_control.tscn" id="7_aq3lh"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_m7skv")
+
+[node name="audio_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_nfj7m")
+bus = &"BGM"
 
 [node name="OVERLAY" type="Sprite2D" parent="."]
 z_index = -5

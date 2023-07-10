@@ -1,6 +1,10 @@
 extends Node2D
 
 
+@onready var audio = $"audio-player"
+var sfx_place = preload("res://assets/audio/sfx-place_road.wav")
+var sfx_remove = preload("res://assets/audio/sfx-remove_road.wav")
+
 @onready var sprite = $Sprite2D
 @onready var clickable = $clickable
 @onready var tilemap = get_node("../TileMap")
@@ -15,6 +19,8 @@ var delete_process = false
 
 
 func _ready():
+	audio.set_stream(sfx_place)
+	audio.play(0)
 	sprite.set_texture(BaseJalan.res_single)
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_BOUNCE)
@@ -30,6 +36,8 @@ func _process(delta):
 			for point in siswa.path_pulang:
 				if point == position:
 					return
+		audio.set_stream(sfx_remove)
+		audio.play(0)
 		var tween = get_tree().create_tween()
 		tween.tween_property(sprite, "scale", Vector2(), 0.2).set_trans(Tween.TRANS_BOUNCE)
 		tween.tween_callback(self.queue_free)
